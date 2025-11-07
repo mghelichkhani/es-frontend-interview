@@ -8,10 +8,16 @@ export type PurchaseNode = {
   user: { id: string; firstName: string; lastName: string; email?: string | null; profilePictureUrl?: string | null }
 }
 
-export function usePurchases(productIds: string[] = [], userIds: string[] = []) {
+export function usePurchases(
+  productIds: string[] = [],
+  userIds: string[] = [],
+  first: number = 15,
+  after?: string
+) {
   const { data, loading, error, refetch } = useQuery(PURCHASES_QUERY, {
-    variables: { productIds, userIds },
+    variables: { productIds, userIds, first, after },
   })
   const nodes: PurchaseNode[] = data?.purchases?.nodes ?? []
-  return { nodes, loading, error, refetch }
+  const pageInfo = data?.purchases?.pageInfo
+  return { nodes, loading, error, refetch, pageInfo }
 }

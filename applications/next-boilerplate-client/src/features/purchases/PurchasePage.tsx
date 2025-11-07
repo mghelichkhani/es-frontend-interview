@@ -1,6 +1,7 @@
 'use client'
 import { usePurchases } from './hooks/usePurchases'
 import PurchaseRow from './PurchaseRow'
+import { LoadingSpinner } from '@/components/LoadingSpinner'
 
 export default function PurchasesPage() {
   const { nodes, loading, error } = usePurchases([], []) // no filters yet
@@ -13,8 +14,16 @@ export default function PurchasesPage() {
       </header>
 
       <div className="rounded border">
-        {loading && <div className="p-3 text-sm text-gray-500">Loading purchases…</div>}
-        {error && <div className="p-3 text-sm text-red-600">Failed to load purchases</div>}
+        {loading && (
+          <div className="flex items-center justify-center py-8">
+            <LoadingSpinner text="Loading purchases…" />
+          </div>
+        )}
+        {error && (
+          <div className="flex items-center justify-center py-8">
+            <span className="text-sm text-red-600">Failed to load purchases</span>
+          </div>
+        )}
         {!loading && nodes.length === 0 && (
           <div className="p-3 text-sm text-gray-500">No purchases</div>
         )}
@@ -28,7 +37,7 @@ export default function PurchasesPage() {
               </tr>
             </thead>
             <tbody>
-              {nodes.map(p => <PurchaseRow key={p.id} p={p} />)}
+              {nodes.map((p) => <PurchaseRow key={p.id} p={p} />)}
             </tbody>
           </table>
         )}

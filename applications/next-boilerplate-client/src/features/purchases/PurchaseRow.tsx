@@ -1,7 +1,11 @@
 'use client'
 import type { PurchaseNode } from './hooks/usePurchases'
 
-export default function PurchaseRow({ p }: { p: PurchaseNode }) {
+export type PurchaseRowProps = {
+  p: PurchaseNode
+}
+
+export default function PurchaseRow({ p }: PurchaseRowProps) {
   return (
     <tr className="border-t">
       <td className="p-2 md:p-3">

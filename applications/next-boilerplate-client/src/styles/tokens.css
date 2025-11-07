@@ -1,0 +1,14 @@
+:root{
+    /* brand */
+    --color-brand-700: 20 100 90;   /* #14645A */
+    --color-brand-600: 33 166 150;  /* #21A696 */
+    --color-brand-50:  249 251 251; /* #F9FBFB */
+  
+    /* neutrals */
+    --color-fg:       17 24 39;     /* slate-900-ish */
+    --color-muted:    107 114 128;  /* slate-500 */
+    --color-border:   209 213 219;  /* gray-300 */
+    --color-border-light: 224 224 224;  /* #e0e0e0 */
+    --color-bg:       255 255 255;  /* white */
+  }
+  
