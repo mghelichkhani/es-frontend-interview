@@ -1,0 +1,38 @@
+'use client'
+import { usePurchases } from './hooks/usePurchases'
+import PurchaseRow from './PurchaseRow'
+
+export default function PurchasesPage() {
+  const { nodes, loading, error } = usePurchases([], []) // no filters yet
+
+  return (
+    <div className="mx-auto max-w-5xl p-4">
+      <header className="mb-4 flex items-center justify-between">
+        <h1 className="text-xl font-semibold">Purchased Products</h1>
+        <span className="text-sm text-gray-600">{nodes.length} results</span>
+      </header>
+
+      <div className="rounded border">
+        {loading && <div className="p-3 text-sm text-gray-500">Loading purchases…</div>}
+        {error && <div className="p-3 text-sm text-red-600">Failed to load purchases</div>}
+        {!loading && nodes.length === 0 && (
+          <div className="p-3 text-sm text-gray-500">No purchases</div>
+        )}
+
+        {!loading && nodes.length > 0 && (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b bg-gray-50">
+                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">Product</th>
+                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">User</th>
+              </tr>
+            </thead>
+            <tbody>
+              {nodes.map(p => <PurchaseRow key={p.id} p={p} />)}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  )
+}

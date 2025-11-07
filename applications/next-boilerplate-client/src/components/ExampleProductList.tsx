@@ -1,4 +1,4 @@
-import { Product } from '../app.types'
+import { Product } from '../app/app.types'
 
 interface Props {
   products: Product[]
