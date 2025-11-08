@@ -104,7 +104,7 @@ export function Popover({
   }, [open, onEscape, onEnter, onOpenChange])
 
   return (
-    <div ref={containerRef} className="relative inline-block">
+    <div ref={containerRef} className="relative block sm:inline-block">
       {trigger}
       {open && (
         <div

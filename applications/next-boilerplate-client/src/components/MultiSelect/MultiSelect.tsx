@@ -1,5 +1,6 @@
 'use client'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { ChevronDown, ChevronUp, SearchIcon, Check, X } from '../icons'
 import { Popover } from '../Popover'
 import { Button } from '../Button'
@@ -19,15 +20,18 @@ type Props = {
 }
 
 export default function MultiSelect({
-  label = 'Select items',
+  label,
   value,
   onChange,
   options,
-  placeholder = 'Search',
+  placeholder,
   isLoading,
   error,
   onSearchTermChange,
 }: Props) {
+  const t = useTranslations()
+  const defaultLabel = label ?? t('multiSelect.defaultLabel')
+  const defaultPlaceholder = placeholder ?? t('common.search.placeholder')
   const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState<Set<string>>(new Set(value))
   const [localQ, setLocalQ] = useState('')
@@ -130,12 +134,12 @@ export default function MultiSelect({
             type="button"
             aria-haspopup="listbox"
             aria-expanded={open}
-            className="inline-flex w-full items-center justify-between gap-2 border border-brand-700 bg-surface text-brand-700 hover:bg-brand-50 sm:min-w-[370px]"
+            className="inline-flex w-full items-center justify-between gap-2 border border-brand-700 bg-surface text-brand-700 hover:bg-brand-50 sm:min-w-[300px] md:min-w-[370px]"
             style={{ borderRadius: '12px', padding: '10px 16px' }}
             onClick={() => { setOpen(o => !o); setTimeout(() => inputRef.current?.focus(), 0) }}
           >
             <span className="flex items-center gap-2">
-              <span className="font-medium text-brand-700">{label}</span>
+              <span className="font-medium text-brand-700">{defaultLabel}</span>
               {appliedCount > 0 && (
                 <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] text-brand-700">
                   {appliedCount}
@@ -148,7 +152,7 @@ export default function MultiSelect({
       >
         <div
           role="dialog"
-          aria-label={label}
+          aria-label={defaultLabel}
           className="bg-brand-50 p-2"
           style={{ borderRadius: '12px', boxShadow: '0 8px 16px 0 rgba(20, 20, 20, 0.16)' }}
         >
@@ -160,7 +164,7 @@ export default function MultiSelect({
                 ref={inputRef}
                 value={localQ}
                 onChange={(e) => { const q = e.target.value; setLocalQ(q); onSearchTermChange?.(q) }}
-                placeholder={placeholder}
+                placeholder={defaultPlaceholder}
                 className="w-full rounded-md border border-border bg-white pl-8 pr-8 py-1 placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-700/30"
               />
               {localQ && (
@@ -168,7 +172,7 @@ export default function MultiSelect({
                   type="button"
                   onClick={() => { setLocalQ(''); onSearchTermChange?.(''); inputRef.current?.focus() }}
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-brand-700/30 rounded"
-                  aria-label="Clear search"
+                  aria-label={t('common.clearSearch')}
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -198,7 +202,7 @@ export default function MultiSelect({
                         e.currentTarget.closest('label')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
                       }}
                       className="sr-only"
-                      aria-label={allOnPageSelected ? 'Deselect all' : 'Select all'}
+                      aria-label={allOnPageSelected ? t('common.deselectAll') : t('common.selectAll')}
                     />
                     {allOnPageSelected ? (
                       <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-700">
@@ -207,7 +211,7 @@ export default function MultiSelect({
                     ) : (
                       <span className="h-5 w-5 rounded border border-border" />
                     )}
-                    <span className="font-medium">{allOnPageSelected ? 'Deselect all' : 'Select all'}</span>
+                    <span className="font-medium">{allOnPageSelected ? t('common.deselectAll') : t('common.selectAll')}</span>
                   </div>
                 </label>
 
@@ -227,7 +231,7 @@ export default function MultiSelect({
               </div>
             )}
             {!isLoading && !error && filtered.length === 0 && (
-              <div className="px-3 py-2 text-muted">No results</div>
+              <div className="px-3 py-2 text-muted">{t('common.noResults')}</div>
             )}
 
             {/* Options (checked row shows right-aligned green check) */}
@@ -250,7 +254,7 @@ export default function MultiSelect({
                         e.currentTarget.closest('label')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
                       }}
                       className="sr-only"
-                      aria-label={`Select ${o.label}`}
+                      aria-label={t('multiSelect.selectItem', { label: o.label })}
                     />
                     {checked ? (
                       <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-700">
@@ -272,13 +276,13 @@ export default function MultiSelect({
               variant="tertiary"
               onClick={() => { setDraft(new Set(value)); setLocalQ(''); setOpen(false) }}
             >
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button
               variant="primary"
               onClick={() => { onChange(Array.from(draft)); setLocalQ(''); setOpen(false) }}
             >
-              Apply
+              {t('common.apply')}
             </Button>
           </div>
         </div>

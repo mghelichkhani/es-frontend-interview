@@ -1,0 +1,90 @@
+{
+  "common": {
+    "user": "{count, plural, one {User} other {Users}}",
+    "product": "{count, plural, one {Product} other {Products}}",
+    "purchase": "{count, plural, one {Purchase} other {Purchases}}",
+    "search": {
+      "label": "Search",
+      "placeholder": "Search..."
+    },
+    "result": "{count, plural, one {result} other {results}}",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "loading": "Loading…",
+    "noResults": "No results",
+    "clear": "Clear",
+    "clearSearch": "Clear search"
+  },
+  "errors": {
+    "load": {
+      "products": "Failed to load products",
+      "users": "Failed to load users",
+      "purchases": "Failed to load purchases",
+      "options": "Failed to load options"
+    }
+  },
+  "purchasesPage": {
+    "title": "Purchased Products",
+    "filter": {
+      "products": "Filter by Products",
+      "users": "Filter by Users"
+    },
+    "search": {
+      "products": "Search products...",
+      "users": "Search users..."
+    },
+    "loading": "Loading purchases…",
+    "empty": "No purchases",
+    "table": {
+      "product": "Product",
+      "user": "User"
+    }
+  },
+  "multiSelect": {
+    "defaultLabel": "Select items",
+    "selectItem": "Select {label}"
+  },
+  "demo": {
+    "title": "Component Demos",
+    "buttonSection": {
+      "title": "Button Components",
+      "primary": "Primary Button",
+      "secondary": "Secondary Button",
+      "tertiary": "Tertiary Button",
+      "disabled": "Disabled",
+      "clickMe": "Click Me"
+    },
+    "multiSelectSection": {
+      "basicTitle": "Basic Usage",
+      "searchTitle": "With Server-Side Search",
+      "loadingTitle": "With Loading State",
+      "errorTitle": "With Error State",
+      "selectedTitle": "Selected Values",
+      "selectItems": "Select Items",
+      "searchItems": "Search Items",
+      "loadingItems": "Loading Items",
+      "errorExample": "Error Example",
+      "typeToSearch": "Type to search...",
+      "selected": "Selected",
+      "none": "None",
+      "noneSelected": "None selected",
+      "searchingFor": "Searching for: \"{query}\"",
+      "list": "List {number}"
+    },
+    "pluralization": {
+      "title": "Pluralization Examples",
+      "description": "Demonstrating ICU message format for singular/plural translations",
+      "userExample": "User/Users",
+      "resultExample": "Result/Results",
+      "productExample": "Product/Products"
+    },
+    "localeSelector": {
+      "title": "Select Language",
+      "english": "English",
+      "german": "German"
+    }
+  }
+}
+

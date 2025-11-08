@@ -1,0 +1,90 @@
+{
+  "common": {
+    "user": "{count, plural, one {Benutzer} other {Benutzer}}",
+    "product": "{count, plural, one {Produkt} other {Produkte}}",
+    "purchase": "{count, plural, one {Kauf} other {Käufe}}",
+    "search": {
+      "label": "Suchen",
+      "placeholder": "Suchen..."
+    },
+    "result": "{count, plural, one {Ergebnis} other {Ergebnisse}}",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "cancel": "Abbrechen",
+    "apply": "Anwenden",
+    "loading": "Lädt…",
+    "noResults": "Keine Ergebnisse",
+    "clear": "Löschen",
+    "clearSearch": "Suche löschen"
+  },
+  "errors": {
+    "load": {
+      "products": "Produkte konnten nicht geladen werden",
+      "users": "Benutzer konnten nicht geladen werden",
+      "purchases": "Käufe konnten nicht geladen werden",
+      "options": "Optionen konnten nicht geladen werden"
+    }
+  },
+  "purchasesPage": {
+    "title": "Gekaufte Produkte",
+    "filter": {
+      "products": "Nach Produkten filtern",
+      "users": "Nach Benutzern filtern"
+    },
+    "search": {
+      "products": "Produkte suchen...",
+      "users": "Benutzer suchen..."
+    },
+    "loading": "Käufe werden geladen…",
+    "empty": "Keine Käufe",
+    "table": {
+      "product": "Produkt",
+      "user": "Benutzer"
+    }
+  },
+  "multiSelect": {
+    "defaultLabel": "Elemente auswählen",
+    "selectItem": "{label} auswählen"
+  },
+  "demo": {
+    "title": "Komponenten-Demos",
+    "buttonSection": {
+      "title": "Button-Komponenten",
+      "primary": "Primärer Button",
+      "secondary": "Sekundärer Button",
+      "tertiary": "Tertiärer Button",
+      "disabled": "Deaktiviert",
+      "clickMe": "Klick mich"
+    },
+    "multiSelectSection": {
+      "basicTitle": "Grundlegende Verwendung",
+      "searchTitle": "Mit serverseitiger Suche",
+      "loadingTitle": "Mit Ladezustand",
+      "errorTitle": "Mit Fehlerzustand",
+      "selectedTitle": "Ausgewählte Werte",
+      "selectItems": "Elemente auswählen",
+      "searchItems": "Elemente suchen",
+      "loadingItems": "Elemente werden geladen",
+      "errorExample": "Fehlerbeispiel",
+      "typeToSearch": "Zum Suchen tippen...",
+      "selected": "Ausgewählt",
+      "none": "Keine",
+      "noneSelected": "Keine ausgewählt",
+      "searchingFor": "Suche nach: \"{query}\"",
+      "list": "Liste {number}"
+    },
+    "pluralization": {
+      "title": "Pluralisierungsbeispiele",
+      "description": "Demonstration des ICU-Nachrichtenformats für Singular/Plural-Übersetzungen",
+      "userExample": "Benutzer/Benutzer",
+      "resultExample": "Ergebnis/Ergebnisse",
+      "productExample": "Produkt/Produkte"
+    },
+    "localeSelector": {
+      "title": "Sprache auswählen",
+      "english": "Englisch",
+      "german": "Deutsch"
+    }
+  }
+}
+
