@@ -11,7 +11,7 @@ type ButtonProps = {
   className?: string
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
-export function Button({
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   variant = 'primary',
   children,
   onClick,
@@ -19,7 +19,7 @@ export function Button({
   type = 'button',
   className = '',
   ...props
-}: ButtonProps) {
+}, ref) => {
   const baseStyles = 'rounded-md px-3 py-1 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-brand-700/30 disabled:opacity-60 disabled:cursor-not-allowed'
   
   const variantStyles = {
@@ -33,6 +33,7 @@ export function Button({
 
   return (
     <button
+      ref={ref}
       type={type}
       className={combinedClassName}
       onClick={onClick}
@@ -42,5 +43,7 @@ export function Button({
       {children}
     </button>
   )
-}
+})
+
+Button.displayName = 'Button'
 

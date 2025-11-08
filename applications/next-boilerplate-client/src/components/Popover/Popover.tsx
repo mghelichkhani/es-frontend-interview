@@ -10,6 +10,7 @@ type PopoverProps = {
   onEnter?: () => void
   align?: 'left' | 'right'
   width?: string
+  triggerWidth?: number
 }
 
 export function Popover({
@@ -21,6 +22,7 @@ export function Popover({
   onEnter,
   align = 'left',
   width = 'w-80',
+  triggerWidth,
 }: PopoverProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const popRef = useRef<HTMLDivElement>(null)
@@ -107,7 +109,8 @@ export function Popover({
       {open && (
         <div
           ref={popRef}
-          className={`absolute z-50 mt-2 ${width} ${align === 'right' ? 'right-0' : 'left-0'}`}
+          className={`absolute z-50 mt-2 ${triggerWidth ? '' : width} ${align === 'right' ? 'right-0' : 'left-0'}`}
+          style={triggerWidth ? { width: `${triggerWidth}px` } : undefined}
         >
           {children}
         </div>

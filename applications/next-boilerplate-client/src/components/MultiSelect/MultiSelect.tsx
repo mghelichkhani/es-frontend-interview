@@ -1,6 +1,6 @@
 'use client'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronDown, ChevronUp, SearchIcon, Check } from '../icons'
+import { ChevronDown, ChevronUp, SearchIcon, Check, X } from '../icons'
 import { Popover } from '../Popover'
 import { Button } from '../Button'
 import { LoadingSpinner } from '../LoadingSpinner'
@@ -32,8 +32,25 @@ export default function MultiSelect({
   const [draft, setDraft] = useState<Set<string>>(new Set(value))
   const [localQ, setLocalQ] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+  const triggerButtonRef = useRef<HTMLButtonElement | null>(null)
+  const [triggerWidth, setTriggerWidth] = useState<number | undefined>(undefined)
 
   useEffect(() => { if (open) setDraft(new Set(value)) }, [open, value])
+
+  // Measure trigger width when popover opens
+  useEffect(() => {
+    if (open && triggerButtonRef.current) {
+      setTriggerWidth(triggerButtonRef.current.offsetWidth)
+    }
+  }, [open])
+
+  // Callback ref to store the button element
+  const setTriggerRef = useCallback((node: HTMLButtonElement | null) => {
+    triggerButtonRef.current = node
+    if (node && open) {
+      setTriggerWidth(node.offsetWidth)
+    }
+  }, [open])
 
   const handleEscape = useCallback(() => {
     try {
@@ -105,8 +122,10 @@ export default function MultiSelect({
         onOpenChange={setOpen}
         onEscape={handleEscape}
         onEnter={handleEnter}
+        triggerWidth={triggerWidth}
         trigger={
           <Button
+            ref={setTriggerRef}
             variant="secondary"
             type="button"
             aria-haspopup="listbox"
@@ -133,22 +152,34 @@ export default function MultiSelect({
           className="bg-brand-50 p-2"
           style={{ borderRadius: '12px', boxShadow: '0 8px 16px 0 rgba(20, 20, 20, 0.16)' }}
         >
-          {/* Search with leading icon */}
-          <div className="relative">
-            <SearchIcon className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-            <input
-              ref={inputRef}
-              value={localQ}
-              onChange={(e) => { const q = e.target.value; setLocalQ(q); onSearchTermChange?.(q) }}
-              placeholder={placeholder}
-              className="w-full rounded-md border border-border bg-white pl-8 pr-2 py-1 placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-700/30"
-            />
-          </div>
+          {/* Search with leading icon - hidden when error */}
+          {!error && (
+            <div className="relative">
+              <SearchIcon className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+              <input
+                ref={inputRef}
+                value={localQ}
+                onChange={(e) => { const q = e.target.value; setLocalQ(q); onSearchTermChange?.(q) }}
+                placeholder={placeholder}
+                className="w-full rounded-md border border-border bg-white pl-8 pr-8 py-1 placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-700/30"
+              />
+              {localQ && (
+                <button
+                  type="button"
+                  onClick={() => { setLocalQ(''); onSearchTermChange?.(''); inputRef.current?.focus() }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-brand-700/30 rounded"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          )}
 
           {/* List container */}
           <div role="listbox" aria-multiselectable className="mt-2 px-1 max-h-64 overflow-auto rounded-md">
-            {/* Select all row (active style when all selected) - hidden when loading or error */}
-            {!isLoading && !error && (
+            {/* Select all row (active style when all selected) - hidden when loading, error, or search has value */}
+            {!isLoading && !error && !localQ && (
               <>
                 <label
                   className={
