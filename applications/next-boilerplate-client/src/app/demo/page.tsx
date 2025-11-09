@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { MultiSelect, type Option } from '@/components/MultiSelect'
 import { Button } from '@/components/Button'
 import { LanguageSelector } from '@/components/LanguageSelector'
+import { ChevronDownIcon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 
 const mockItems: Option[] = [
   { id: '1', label: 'Item A' },
@@ -38,30 +39,135 @@ export default function DemoPage() {
       </div>
 
       <div className="space-y-8">
+        {/* Color Palette */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold">Color Palette</h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Brand Colors */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">Brand Colors</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded border border-[#D1D5DB]" style={{ backgroundColor: 'rgb(var(--brand-primary))' }} />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">Primary</span>
+                    <span className="text-xs text-text">#21A696</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded border border-[#D1D5DB]" style={{ backgroundColor: 'rgb(var(--brand-primary-dark))' }} />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">Primary Dark</span>
+                    <span className="text-xs text-text">#14645A</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Surfaces */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">Surfaces</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded border border-[#D1D5DB]" style={{ backgroundColor: 'rgb(var(--brand-surface))' }} />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">Surface</span>
+                    <span className="text-xs text-text">#FFFFFF</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded border border-[#D1D5DB]" style={{ backgroundColor: 'rgb(var(--brand-surface-muted))' }} />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">Surface Muted</span>
+                    <span className="text-xs text-text">#F9FBFB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Text Colors */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">Text Colors</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded border border-[#D1D5DB]" style={{ backgroundColor: 'rgb(var(--text-strong))' }} />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">Text Strong</span>
+                    <span className="text-xs text-text">#141414</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded border border-[#D1D5DB]" style={{ backgroundColor: 'rgb(var(--text))' }} />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">Text</span>
+                    <span className="text-xs text-text">#434343</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gray-200" />
+
         {/* Button Components */}
         <section className="space-y-4">
           <h2 className="text-xl font-semibold">{t('demo.buttonSection.title')}</h2>
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-4">
-              <Button variant="primary">{t('demo.buttonSection.primary')}</Button>
-              <Button variant="secondary">{t('demo.buttonSection.secondary')}</Button>
-              <Button variant="tertiary">{t('demo.buttonSection.tertiary')}</Button>
+          <div className="space-y-6">
+            {/* Small Size */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">Small (Default)</h3>
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary" size="sm">{t('demo.buttonSection.primary')}</Button>
+                  <Button variant="secondary" size="sm">{t('demo.buttonSection.secondary')}</Button>
+                  <Button variant="tertiary" size="sm">Tertiary</Button>
+                </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary" size="sm" disabled>{t('demo.buttonSection.primary')} {t('demo.buttonSection.disabled')}</Button>
+                  <Button variant="secondary" size="sm" disabled>{t('demo.buttonSection.secondary')} {t('demo.buttonSection.disabled')}</Button>
+                  <Button variant="tertiary" size="sm" disabled>Tertiary {t('demo.buttonSection.disabled')}</Button>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button variant="primary" disabled>{t('demo.buttonSection.primary')} {t('demo.buttonSection.disabled')}</Button>
-              <Button variant="secondary" disabled>{t('demo.buttonSection.secondary')} {t('demo.buttonSection.disabled')}</Button>
-              <Button variant="tertiary" disabled>{t('demo.buttonSection.tertiary')} {t('demo.buttonSection.disabled')}</Button>
+            
+            {/* Large Size */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">Large</h3>
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary" size="lg">{t('demo.buttonSection.primary')}</Button>
+                  <Button variant="secondary" size="lg">{t('demo.buttonSection.secondary')}</Button>
+                  <Button variant="tertiary" size="lg">Tertiary</Button>
+                </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary" size="lg" disabled>{t('demo.buttonSection.primary')} {t('demo.buttonSection.disabled')}</Button>
+                  <Button variant="secondary" size="lg" disabled>{t('demo.buttonSection.secondary')} {t('demo.buttonSection.disabled')}</Button>
+                  <Button variant="tertiary" size="lg" disabled>Tertiary {t('demo.buttonSection.disabled')}</Button>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button variant="primary" onClick={() => alert('Primary clicked!')}>
-                {t('demo.buttonSection.clickMe')} ({t('demo.buttonSection.primary')})
-              </Button>
-              <Button variant="secondary" onClick={() => alert('Secondary clicked!')}>
-                {t('demo.buttonSection.clickMe')} ({t('demo.buttonSection.secondary')})
-              </Button>
-              <Button variant="tertiary" onClick={() => alert('Tertiary clicked!')}>
-                {t('demo.buttonSection.clickMe')} ({t('demo.buttonSection.tertiary')})
-              </Button>
+
+            {/* With Icons */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">With Icons</h3>
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary" iconBefore={<CheckIcon className="h-4 w-4" />}>Icon Before</Button>
+                  <Button variant="secondary" iconBefore={<CheckIcon className="h-4 w-4" />}>Icon Before</Button>
+                  <Button variant="tertiary" iconBefore={<CheckIcon className="h-4 w-4" />}>Icon Before</Button>
+                </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary" iconAfter={<ChevronDownIcon className="h-4 w-4" />}>Icon After</Button>
+                  <Button variant="secondary" iconAfter={<ChevronDownIcon className="h-4 w-4" />}>Icon After</Button>
+                  <Button variant="tertiary" iconAfter={<ChevronDownIcon className="h-4 w-4" />}>Icon After</Button>
+                </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary" size="lg" iconBefore={<CheckIcon className="h-5 w-5" />}>Large with Icon</Button>
+                  <Button variant="secondary" size="lg" iconAfter={<ChevronDownIcon className="h-5 w-5" />}>Large with Icon</Button>
+                  <Button variant="tertiary" size="lg" iconBefore={<CheckIcon className="h-5 w-5" />} iconAfter={<Cross2Icon className="h-5 w-5" />}>Both Icons</Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>

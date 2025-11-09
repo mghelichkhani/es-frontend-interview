@@ -2,29 +2,28 @@ import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/features/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Figtree', 'sans-serif'],
+      },
       colors: {
         brand: {
-          700: 'rgb(var(--color-brand-700))',
-          600: 'rgb(var(--color-brand-600))',
-          50: 'rgb(var(--color-brand-50))',
+          primary: 'rgb(var(--brand-primary))',
+          'primary-dark': 'rgb(var(--brand-primary-dark))',
+          surface: 'rgb(var(--brand-surface))',
+          'surface-muted': 'rgb(var(--brand-surface-muted))',
+          'surface-muted-hover': 'rgb(var(--brand-surface-muted-hover))',
+          'surface-pressed': 'rgb(var(--brand-surface-pressed))',
         },
-        fg: 'rgb(var(--color-fg))',
-        muted: 'rgb(var(--color-muted))',
-        border: 'rgb(var(--color-border))',
-        'border-light': 'rgb(var(--color-border-light))',
-        surface: 'rgb(var(--color-bg))',
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        text: {
+          DEFAULT: 'rgb(var(--text))',
+          strong: 'rgb(var(--text-strong))',
+        },
       },
     },
   },

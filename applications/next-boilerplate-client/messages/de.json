@@ -52,7 +52,6 @@
       "title": "Button-Komponenten",
       "primary": "Primärer Button",
       "secondary": "Sekundärer Button",
-      "tertiary": "Tertiärer Button",
       "disabled": "Deaktiviert",
       "clickMe": "Klick mich"
     },

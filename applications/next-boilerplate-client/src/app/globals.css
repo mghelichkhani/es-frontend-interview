@@ -1,21 +1,30 @@
 @import '../styles/tokens.css';
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: rgb(var(--text));
+  background: rgb(var(--brand-surface));
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .u-focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-4;
+    --tw-ring-color: rgb(var(--brand-primary) / 0.3);
+  }
+
+  .colors-transition {
+    @apply transition-colors;
+  }
+
+  .u-disabled {
+    @apply disabled:opacity-60 disabled:cursor-not-allowed;
   }
 }

@@ -1,31 +1,37 @@
 import React from 'react'
 
 type ButtonVariant = 'primary' | 'secondary' | 'tertiary'
+type ButtonSize = 'sm' | 'lg'
 
 type ButtonProps = {
   variant?: ButtonVariant
+  size?: ButtonSize
   children: React.ReactNode
-  onClick?: () => void
-  disabled?: boolean
-  type?: 'button' | 'submit' | 'reset'
+  iconBefore?: React.ReactNode
+  iconAfter?: React.ReactNode
   className?: string
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   variant = 'primary',
+  size = 'sm',
   children,
-  onClick,
-  disabled,
-  type = 'button',
+  iconBefore,
+  iconAfter,
   className = '',
   ...props
 }, ref) => {
-  const baseStyles = 'rounded-md px-3 py-1 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-brand-700/30 disabled:opacity-60 disabled:cursor-not-allowed'
+  const sizeStyles = {
+    sm: variant === 'tertiary' ? 'h-[30px] rounded-lg px-4 text-sm font-medium' : 'h-8 rounded-lg px-4 text-sm font-medium',
+    lg: variant === 'tertiary' ? 'h-[42px] rounded-lg px-4 text-base font-medium' : 'h-11 rounded-lg px-4 text-base font-medium',
+  }
+  
+  const baseStyles = `${sizeStyles[size]} u-focus-ring colors-transition u-disabled`
   
   const variantStyles = {
-    primary: 'bg-brand-600 text-white hover:bg-brand-700',
-    secondary: 'bg-white border border-border-light text-fg hover:bg-brand-50 active:border-brand-700',
-    tertiary: 'bg-transparent text-muted hover:bg-brand-50 underline',
+    primary: 'bg-brand-primary text-white hover:bg-brand-primary-dark active:opacity-90 disabled:hover:bg-brand-primary disabled:active:opacity-60',
+    secondary: 'bg-transparent text-text hover:bg-brand-surface-muted active:bg-brand-surface-pressed disabled:hover:bg-transparent',
+    tertiary: 'bg-brand-surface-muted text-text hover:bg-brand-surface-muted-hover active:bg-brand-surface-pressed disabled:hover:bg-brand-surface-muted border border-brand-primary-dark',
   }
 
   // Merge classes, allowing className to override base styles
@@ -34,13 +40,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   return (
     <button
       ref={ref}
-      type={type}
+      type="button"
       className={combinedClassName}
-      onClick={onClick}
-      disabled={disabled}
       {...props}
     >
-      {children}
+      <span className="flex items-center justify-center gap-2">
+        {iconBefore && <span className="flex-shrink-0">{iconBefore}</span>}
+        {children}
+        {iconAfter && <span className="flex-shrink-0">{iconAfter}</span>}
+      </span>
     </button>
   )
 })

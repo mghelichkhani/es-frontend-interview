@@ -52,7 +52,6 @@
       "title": "Button Components",
       "primary": "Primary Button",
       "secondary": "Secondary Button",
-      "tertiary": "Tertiary Button",
       "disabled": "Disabled",
       "clickMe": "Click Me"
     },

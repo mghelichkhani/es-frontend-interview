@@ -26,16 +26,16 @@ export function LanguageSelector() {
             onClick={() => handleLocaleChange(loc)}
             aria-label={`Switch to ${loc === 'en' ? 'English' : 'German'}`}
             aria-current={locale === loc ? 'page' : undefined}
-            className={`rounded-md text-sm px-1 font-medium uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700/30 ${
+            className={`rounded-md text-sm px-1 font-medium uppercase transition-colors u-focus-ring ${
               locale === loc
-                ? 'text-brand-700 underline'
-                : 'text-muted hover:text-fg'
+                ? 'text-brand-primary-dark underline'
+                : 'text-[#6B7280] hover:text-[#111827]'
             }`}
           >
             {loc}
           </button>
           {index < locales.length - 1 && (
-            <span className="text-muted ml-1" aria-hidden="true">
+            <span className="text-[#6B7280] ml-1" aria-hidden="true">
               /
             </span>
           )}

@@ -1,14 +1,15 @@
-:root{
-    /* brand */
-    --color-brand-700: 20 100 90;   /* #14645A */
-    --color-brand-600: 33 166 150;  /* #21A696 */
-    --color-brand-50:  249 251 251; /* #F9FBFB */
+:root {
+  /* Brand colors */
+  --brand-primary: 33 166 150;        /* #21A696 - Apply btn, selected */
+  --brand-primary-dark: 20 100 90;   /* #14645A - Borders, pressed */
   
-    /* neutrals */
-    --color-fg:       17 24 39;     /* slate-900-ish */
-    --color-muted:    107 114 128;  /* slate-500 */
-    --color-border:   209 213 219;  /* gray-300 */
-    --color-border-light: 224 224 224;  /* #e0e0e0 */
-    --color-bg:       255 255 255;  /* white */
-  }
+  /* Surfaces */
+  --brand-surface: 255 255 255;        /* #FFFFFF - Default background */
+  --brand-surface-muted: 249 251 251;  /* #F9FBFB - Hover bg */
+  --brand-surface-muted-hover: 240 240 240;  /* #F0F0F0 - Tertiary button hover */
+  --brand-surface-pressed: 229 229 229;  /* #E5E5E5 - Pressed bg */
   
+  /* Text */
+  --text-strong: 20 20 20;          /* #141414 - Titles, product names */
+  --text: 67 67 67;                 /* #434343 - Controls, labels, secondary text */
+}

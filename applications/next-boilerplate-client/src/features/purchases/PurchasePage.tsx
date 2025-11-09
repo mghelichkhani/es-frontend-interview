@@ -8,6 +8,9 @@ import PurchaseRow from './PurchaseRow'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { MultiSelect, type Option } from '@/components/MultiSelect'
 import { LanguageSelector } from '@/components/LanguageSelector'
+import { Button } from '@/components/Button'
+import { ReloadIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
+import * as Popover from '@radix-ui/react-popover'
 
 export default function PurchasesPage() {
   const t = useTranslations()
@@ -22,15 +25,75 @@ export default function PurchasesPage() {
 
   const { nodes, loading, error } = usePurchases(selectedProductIds, selectedUserIds)
 
+  const handleReset = () => {
+    setSelectedProductIds([])
+    setSelectedUserIds([])
+  }
+
   return (
     <div className="mx-auto max-w-5xl p-4">
       <header className="mb-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{t('purchasesPage.title')}</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">
-            {nodes.length} {t('common.result', { count: nodes.length })}
+        <h1 className="text-xl font-semibold">
+          {t('purchasesPage.title')}{' '}
+          <span className="text-sm font-normal text-gray-600">
+            ({nodes.length} {t('common.result', { count: nodes.length })})
           </span>
-          <LanguageSelector />
+        </h1>
+        <div className="flex items-center gap-4">
+          {/* Desktop: Show buttons directly */}
+          <div className="hidden md:flex items-center gap-4">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleReset}
+              iconBefore={<ReloadIcon className="h-4 w-4" />}
+            >
+              Reset
+            </Button>
+            <LanguageSelector />
+          </div>
+          
+          {/* Mobile: Show in popover */}
+          <Popover.Root>
+            <Popover.Trigger asChild>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="md:hidden"
+                iconBefore={<DotsHorizontalIcon className="h-4 w-4" />}
+                aria-label="Menu"
+              >
+                <span className="sr-only">Menu</span>
+              </Button>
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Content
+                className="z-50 outline-none"
+                sideOffset={8}
+                align="end"
+              >
+                <div
+                  className="bg-brand-surface-muted p-2"
+                  style={{ borderRadius: '12px', boxShadow: `0 8px 16px 0 rgb(var(--text-strong) / 0.16)` }}
+                >
+                  <div className="flex flex-col gap-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={handleReset}
+                      iconBefore={<ReloadIcon className="h-4 w-4" />}
+                      className="w-full justify-start"
+                    >
+                      Reset
+                    </Button>
+                    <div className="px-2 py-1">
+                      <LanguageSelector />
+                    </div>
+                  </div>
+                </div>
+              </Popover.Content>
+            </Popover.Portal>
+          </Popover.Root>
         </div>
       </header>
 
