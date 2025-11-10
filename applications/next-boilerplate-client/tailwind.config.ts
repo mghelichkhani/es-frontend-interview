@@ -23,6 +23,18 @@ const config: Config = {
         text: {
           DEFAULT: 'rgb(var(--text))',
           strong: 'rgb(var(--text-strong))',
+          muted: 'rgb(var(--text-muted))',
+          subtle: 'rgb(var(--text-subtle))',
+        },
+        border: {
+          divider: 'rgb(var(--border-divider))',
+          subtle: 'rgb(var(--border-subtle))',
+        },
+        gray: {
+          50: 'rgb(var(--gray-50))',
+          200: 'rgb(var(--gray-200))',
+          500: 'rgb(var(--gray-500))',
+          600: 'rgb(var(--gray-600))',
         },
       },
     },

@@ -20,7 +20,7 @@ export default function PurchaseRow({ p }: PurchaseRowProps) {
           {p.product.imageUrl && !productImageError ? (
             <Image
               src={p.product.imageUrl}
-              alt=""
+              alt={p.product.name}
               width={28}
               height={28}
               className="hidden sm:block rounded object-cover"
@@ -28,7 +28,10 @@ export default function PurchaseRow({ p }: PurchaseRowProps) {
               onError={() => setProductImageError(true)}
             />
           ) : (
-            <div className="hidden sm:block h-7 w-7 rounded bg-gray-200" />
+            <div
+              className="hidden sm:block h-7 w-7 rounded bg-gray-200"
+              aria-hidden="true"
+            />
           )}
           <span className="text-sm font-medium md:text-base">
             {p.product.name}
@@ -40,7 +43,7 @@ export default function PurchaseRow({ p }: PurchaseRowProps) {
           {p.user.profilePictureUrl && !userImageError ? (
             <Image
               src={p.user.profilePictureUrl}
-              alt=""
+              alt={`${p.user.firstName} ${p.user.lastName}`}
               width={28}
               height={28}
               className="hidden sm:block rounded-full object-cover"
@@ -48,7 +51,10 @@ export default function PurchaseRow({ p }: PurchaseRowProps) {
               onError={() => setUserImageError(true)}
             />
           ) : (
-            <div className="hidden sm:block h-7 w-7 rounded-full bg-gray-200" />
+            <div
+              className="hidden sm:block h-7 w-7 rounded-full bg-gray-200"
+              aria-hidden="true"
+            />
           )}
           <span className="text-sm md:text-base">
             {p.user.firstName} {p.user.lastName}

@@ -15,7 +15,10 @@
     "loading": "Lädt…",
     "noResults": "Keine Ergebnisse",
     "clear": "Löschen",
-    "clearSearch": "Suche löschen"
+    "clearSearch": "Suche löschen",
+    "reset": "Zurücksetzen",
+    "menu": "Menü",
+    "resetFilters": "Filter zurücksetzen"
   },
   "errors": {
     "load": {
@@ -26,10 +29,10 @@
     }
   },
   "purchasesPage": {
-    "title": "Gekaufte Produkte",
+    "title": "Käufe",
     "filter": {
-      "products": "Nach Produkten filtern",
-      "users": "Nach Benutzern filtern"
+      "products": "Produkte filtern",
+      "users": "Benutzer filtern"
     },
     "search": {
       "products": "Produkte suchen...",
@@ -52,25 +55,43 @@
       "title": "Button-Komponenten",
       "primary": "Primärer Button",
       "secondary": "Sekundärer Button",
+      "tertiary": "Tertiär",
       "disabled": "Deaktiviert",
-      "clickMe": "Klick mich"
+      "clickMe": "Klick mich",
+      "small": "Klein (Standard)",
+      "large": "Groß",
+      "withIcons": "Mit Icons",
+      "iconBefore": "Icon davor",
+      "iconAfter": "Icon danach",
+      "bothIcons": "Beide Icons",
+      "largeWithIcon": "Groß mit Icon",
+      "fullWidthWithIcons": "Volle Breite mit beiden Icons"
     },
     "multiSelectSection": {
       "basicTitle": "Grundlegende Verwendung",
-      "searchTitle": "Mit serverseitiger Suche",
       "loadingTitle": "Mit Ladezustand",
       "errorTitle": "Mit Fehlerzustand",
       "selectedTitle": "Ausgewählte Werte",
       "selectItems": "Elemente auswählen",
-      "searchItems": "Elemente suchen",
       "loadingItems": "Elemente werden geladen",
       "errorExample": "Fehlerbeispiel",
       "typeToSearch": "Zum Suchen tippen...",
       "selected": "Ausgewählt",
       "none": "Keine",
       "noneSelected": "Keine ausgewählt",
-      "searchingFor": "Suche nach: \"{query}\"",
       "list": "Liste {number}"
+    },
+    "colorPalette": {
+      "title": "Farbpalette",
+      "brandColors": "Markenfarben",
+      "surfaces": "Oberflächen",
+      "textColors": "Textfarben",
+      "primary": "Primär",
+      "primaryDark": "Primär Dunkel",
+      "surface": "Oberfläche",
+      "surfaceMuted": "Oberfläche Gedämpft",
+      "textStrong": "Text Stark",
+      "text": "Text"
     },
     "pluralization": {
       "title": "Pluralisierungsbeispiele",
@@ -82,8 +103,9 @@
     "localeSelector": {
       "title": "Sprache auswählen",
       "english": "Englisch",
-      "german": "Deutsch"
+      "german": "Deutsch",
+      "ariaLabel": "Sprachauswahl",
+      "switchTo": "Wechseln zu {language}"
     }
   }
 }
-

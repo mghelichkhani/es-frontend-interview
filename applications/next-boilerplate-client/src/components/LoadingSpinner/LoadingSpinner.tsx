@@ -8,8 +8,7 @@ export function LoadingSpinner({ text }: { text?: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-2 px-3 py-4">
       <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-primary-dark border-t-transparent" />
-      <span className="text-[#6B7280]">{displayText}</span>
+      <span className="text-text-muted">{displayText}</span>
     </div>
   )
 }
-

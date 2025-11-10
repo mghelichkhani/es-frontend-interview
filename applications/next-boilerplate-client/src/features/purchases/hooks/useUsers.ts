@@ -6,8 +6,8 @@ export type UserNode = {
   id: string
   firstName: string
   lastName: string
-  email: string
-  profilePictureUrl: string
+  email?: string | null
+  profilePictureUrl?: string | null
 }
 
 export function useUsers(searchTerm?: string, first: number = 100) {

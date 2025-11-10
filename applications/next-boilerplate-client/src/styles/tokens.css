@@ -1,15 +1,27 @@
 :root {
   /* Brand colors */
-  --brand-primary: 33 166 150;        /* #21A696 - Apply btn, selected */
-  --brand-primary-dark: 20 100 90;   /* #14645A - Borders, pressed */
-  
+  --brand-primary: 33 166 150; /* #21A696 - Apply btn, selected */
+  --brand-primary-dark: 20 100 90; /* #14645A - Borders, pressed */
+
   /* Surfaces */
-  --brand-surface: 255 255 255;        /* #FFFFFF - Default background */
-  --brand-surface-muted: 249 251 251;  /* #F9FBFB - Hover bg */
-  --brand-surface-muted-hover: 240 240 240;  /* #F0F0F0 - Tertiary button hover */
-  --brand-surface-pressed: 229 229 229;  /* #E5E5E5 - Pressed bg */
-  
+  --brand-surface: 255 255 255; /* #FFFFFF - Default background */
+  --brand-surface-muted: 249 251 251; /* #F9FBFB - Hover bg */
+  --brand-surface-muted-hover: 240 240 240; /* #F0F0F0 - Tertiary button hover */
+  --brand-surface-pressed: 229 229 229; /* #E5E5E5 - Pressed bg */
+
   /* Text */
-  --text-strong: 20 20 20;          /* #141414 - Titles, product names */
-  --text: 67 67 67;                 /* #434343 - Controls, labels, secondary text */
+  --text-strong: 20 20 20; /* #141414 - Titles, product names */
+  --text: 67 67 67; /* #434343 - Controls, labels, secondary text */
+  --text-muted: 107 114 128; /* #6B7280 - Placeholder, secondary text */
+  --text-subtle: 17 24 39; /* #111827 - Hover states */
+
+  /* Borders & Dividers */
+  --border-divider: 224 224 224; /* #E0E0E0 - Dividers */
+  --border-subtle: 209 213 219; /* #D1D5DB - Subtle borders */
+
+  /* Grays (for backgrounds, placeholders) */
+  --gray-50: 249 250 251; /* #F9FAFB - Light backgrounds */
+  --gray-200: 229 231 235; /* #E5E7EB - Placeholder backgrounds */
+  --gray-500: 107 114 128; /* #6B7280 - Muted text */
+  --gray-600: 75 85 99; /* #4B5563 - Secondary text */
 }

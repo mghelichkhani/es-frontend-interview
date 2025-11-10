@@ -15,7 +15,10 @@
     "loading": "Loading…",
     "noResults": "No results",
     "clear": "Clear",
-    "clearSearch": "Clear search"
+    "clearSearch": "Clear search",
+    "reset": "Reset",
+    "menu": "Menu",
+    "resetFilters": "Reset filters"
   },
   "errors": {
     "load": {
@@ -26,10 +29,10 @@
     }
   },
   "purchasesPage": {
-    "title": "Purchased Products",
+    "title": "Purchases",
     "filter": {
-      "products": "Filter by Products",
-      "users": "Filter by Users"
+      "products": "Filter Products",
+      "users": "Filter Users"
     },
     "search": {
       "products": "Search products...",
@@ -43,7 +46,7 @@
     }
   },
   "multiSelect": {
-    "defaultLabel": "Select items",
+    "defaultLabel": "Select Items",
     "selectItem": "Select {label}"
   },
   "demo": {
@@ -52,25 +55,43 @@
       "title": "Button Components",
       "primary": "Primary Button",
       "secondary": "Secondary Button",
+      "tertiary": "Tertiary",
       "disabled": "Disabled",
-      "clickMe": "Click Me"
+      "clickMe": "Click Me",
+      "small": "Small (Default)",
+      "large": "Large",
+      "withIcons": "With Icons",
+      "iconBefore": "Icon Before",
+      "iconAfter": "Icon After",
+      "bothIcons": "Both Icons",
+      "largeWithIcon": "Large with Icon",
+      "fullWidthWithIcons": "Full Width with Both Icons"
     },
     "multiSelectSection": {
       "basicTitle": "Basic Usage",
-      "searchTitle": "With Server-Side Search",
       "loadingTitle": "With Loading State",
       "errorTitle": "With Error State",
       "selectedTitle": "Selected Values",
       "selectItems": "Select Items",
-      "searchItems": "Search Items",
       "loadingItems": "Loading Items",
       "errorExample": "Error Example",
       "typeToSearch": "Type to search...",
       "selected": "Selected",
       "none": "None",
       "noneSelected": "None selected",
-      "searchingFor": "Searching for: \"{query}\"",
       "list": "List {number}"
+    },
+    "colorPalette": {
+      "title": "Color Palette",
+      "brandColors": "Brand Colors",
+      "surfaces": "Surfaces",
+      "textColors": "Text Colors",
+      "primary": "Primary",
+      "primaryDark": "Primary Dark",
+      "surface": "Surface",
+      "surfaceMuted": "Surface Muted",
+      "textStrong": "Text Strong",
+      "text": "Text"
     },
     "pluralization": {
       "title": "Pluralization Examples",
@@ -82,8 +103,9 @@
     "localeSelector": {
       "title": "Select Language",
       "english": "English",
-      "german": "German"
+      "german": "German",
+      "ariaLabel": "Language selector",
+      "switchTo": "Switch to {language}"
     }
   }
 }
-

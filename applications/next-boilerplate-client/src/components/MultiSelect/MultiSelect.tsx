@@ -26,7 +26,6 @@ type Props = {
   placeholder?: string
   isLoading?: boolean
   error?: string | null
-  onSearchTermChange?: (q: string) => void
 }
 
 export default function MultiSelect({
@@ -37,7 +36,6 @@ export default function MultiSelect({
   placeholder,
   isLoading,
   error,
-  onSearchTermChange,
 }: Props) {
   const t = useTranslations()
   const defaultLabel = label ?? t('multiSelect.defaultLabel')
@@ -47,6 +45,7 @@ export default function MultiSelect({
   const [localQ, setLocalQ] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const triggerButtonRef = useRef<HTMLButtonElement | null>(null)
+  const draftRef = useRef<Set<string>>(draft)
   const [triggerWidth, setTriggerWidth] = useState<number | undefined>(
     undefined,
   )
@@ -54,6 +53,11 @@ export default function MultiSelect({
   const groupId = `multiselect-group-${baseId}`
   const buttonId = `multiselect-button-${baseId}`
   const searchInputId = `multiselect-search-${baseId}`
+
+  // Keep draftRef in sync with draft state
+  useEffect(() => {
+    draftRef.current = draft
+  }, [draft])
 
   useEffect(() => {
     if (open) {
@@ -80,23 +84,15 @@ export default function MultiSelect({
   )
 
   const handleEscape = useCallback(() => {
-    try {
-      setDraft(new Set(value))
-      setLocalQ('')
-    } catch (error) {
-      console.error('Error in handleEscape:', error)
-    }
+    setDraft(new Set(value))
+    setLocalQ('')
   }, [value])
 
   const handleEnter = useCallback(() => {
-    try {
-      onChange(Array.from(draft))
-      setLocalQ('')
-      setOpen(false)
-    } catch (error) {
-      console.error('Error in handleEnter:', error)
-    }
-  }, [draft, onChange])
+    onChange(Array.from(draftRef.current))
+    setLocalQ('')
+    setOpen(false)
+  }, [onChange])
 
   // Handle Enter key to apply values
   useEffect(() => {
@@ -143,31 +139,23 @@ export default function MultiSelect({
   const appliedCount = value.length
 
   const toggle = useCallback((id: string) => {
-    try {
-      setDraft((prev) => {
-        const next = new Set(prev)
-        next.has(id) ? next.delete(id) : next.add(id)
-        return next
-      })
-    } catch (error) {
-      console.error('Error in toggle:', error)
-    }
+    setDraft((prev) => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
   }, [])
 
   const allOnPageSelected =
     options.length > 0 && options.every((o) => draft.has(o.id))
   const onSelectAllPage = useCallback(() => {
-    try {
-      setDraft((prev) => {
-        const next = new Set(prev)
-        const allSelected = options.every((o) => next.has(o.id))
-        if (allSelected) options.forEach((o) => next.delete(o.id))
-        else options.forEach((o) => next.add(o.id))
-        return next
-      })
-    } catch (error) {
-      console.error('Error in onSelectAllPage:', error)
-    }
+    setDraft((prev) => {
+      const next = new Set(prev)
+      const allSelected = options.every((o) => next.has(o.id))
+      if (allSelected) options.forEach((o) => next.delete(o.id))
+      else options.forEach((o) => next.add(o.id))
+      return next
+    })
   }, [options])
 
   const [effectiveQ, setEffectiveQ] = useState('')
@@ -179,11 +167,10 @@ export default function MultiSelect({
     return () => clearTimeout(timer)
   }, [localQ])
   const filtered = useMemo(() => {
-    if (onSearchTermChange) return options
     const q = effectiveQ.trim().toLowerCase()
     if (!q) return options
     return options.filter((o) => o.label.toLowerCase().includes(q))
-  }, [options, effectiveQ, onSearchTermChange])
+  }, [options, effectiveQ])
 
   return (
     <div className="text-sm">
@@ -244,7 +231,7 @@ export default function MultiSelect({
               {!error && (
                 <>
                   <div className="relative p-1">
-                    <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-1/2 h-6 w-6  -translate-y-1/2 text-[#6B7280]" />
+                    <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-1/2 h-6 w-6  -translate-y-1/2 text-text-muted" />
                     <input
                       ref={inputRef}
                       id={searchInputId}
@@ -255,27 +242,25 @@ export default function MultiSelect({
                       onChange={(e) => {
                         const q = e.target.value
                         setLocalQ(q)
-                        onSearchTermChange?.(q)
                       }}
                       placeholder={defaultPlaceholder}
-                      className="h-10 w-full rounded-tl-md rounded-tr-md border border-transparent bg-transparent px-4 pl-10 pr-10 placeholder:text-[#6B7280] u-focus-ring"
+                      className="h-10 w-full rounded-tl-md rounded-tr-md border border-transparent bg-transparent px-4 pl-10 pr-10 placeholder:text-text-muted u-focus-ring"
                     />
                     {localQ && (
                       <button
                         type="button"
                         onClick={() => {
                           setLocalQ('')
-                          onSearchTermChange?.('')
                           inputRef.current?.focus()
                         }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7280] hover:text-text-strong u-focus-ring rounded"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-strong u-focus-ring rounded"
                         aria-label={t('common.clearSearch')}
                       >
                         <Cross2Icon className="h-4 w-4" />
                       </button>
                     )}
                   </div>
-                  <div className="h-px bg-[#E0E0E0]" />
+                  <div className="h-px bg-border-divider" />
                 </>
               )}
 
@@ -313,7 +298,7 @@ export default function MultiSelect({
                       isSelected={allOnPageSelected}
                       isSelectAll={true}
                     />
-                    <div className="h-px bg-[#E0E0E0]" />
+                    <div className="h-px bg-border-divider" />
                   </>
                 )}
 
@@ -329,7 +314,7 @@ export default function MultiSelect({
                   </div>
                 )}
                 {!isLoading && !error && filtered.length === 0 && (
-                  <div className="px-3 py-2 text-[#6B7280]">
+                  <div className="px-3 py-2 text-text-muted">
                     {t('common.noResults')}
                   </div>
                 )}
@@ -358,7 +343,7 @@ export default function MultiSelect({
               </div>
 
               {/* Footer (Cancel / Apply) */}
-              <div className="h-px bg-[#E0E0E0]" />
+              <div className="h-px bg-border-divider" />
               <div className="h-12 flex items-center justify-between px-4 py-2">
                 <Button
                   variant="secondary"

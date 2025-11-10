@@ -30,17 +30,8 @@ const mockItems: Option[] = [
 export default function DemoPage() {
   const t = useTranslations()
   const [selectedItems1, setSelectedItems1] = useState<string[]>([])
-  const [selectedItems2, setSelectedItems2] = useState<string[]>([])
-  const [searchQuery, setSearchQuery] = useState('')
   const [userCount, setUserCount] = useState(1)
   const [resultCount, setResultCount] = useState(1)
-
-  // Simulate server-side filtering
-  const filteredItems = searchQuery
-    ? mockItems.filter((item) =>
-        item.label.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : mockItems
 
   return (
     <div className="mx-auto max-w-4xl p-8">
@@ -52,12 +43,14 @@ export default function DemoPage() {
       <div className="space-y-8">
         {/* Color Palette */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Color Palette</h2>
+          <h2 className="text-xl font-semibold">
+            {t('demo.colorPalette.title')}
+          </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Brand Colors */}
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-text-strong">
-                Brand Colors
+                {t('demo.colorPalette.brandColors')}
               </h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
@@ -67,7 +60,7 @@ export default function DemoPage() {
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-text-strong">
-                      Primary
+                      {t('demo.colorPalette.primary')}
                     </span>
                     <span className="text-xs text-text">#21A696</span>
                   </div>
@@ -81,7 +74,7 @@ export default function DemoPage() {
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-text-strong">
-                      Primary Dark
+                      {t('demo.colorPalette.primaryDark')}
                     </span>
                     <span className="text-xs text-text">#14645A</span>
                   </div>
@@ -92,7 +85,7 @@ export default function DemoPage() {
             {/* Surfaces */}
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-text-strong">
-                Surfaces
+                {t('demo.colorPalette.surfaces')}
               </h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
@@ -102,7 +95,7 @@ export default function DemoPage() {
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-text-strong">
-                      Surface
+                      {t('demo.colorPalette.surface')}
                     </span>
                     <span className="text-xs text-text">#FFFFFF</span>
                   </div>
@@ -116,7 +109,7 @@ export default function DemoPage() {
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-text-strong">
-                      Surface Muted
+                      {t('demo.colorPalette.surfaceMuted')}
                     </span>
                     <span className="text-xs text-text">#F9FBFB</span>
                   </div>
@@ -127,7 +120,7 @@ export default function DemoPage() {
             {/* Text Colors */}
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-text-strong">
-                Text Colors
+                {t('demo.colorPalette.textColors')}
               </h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
@@ -137,7 +130,7 @@ export default function DemoPage() {
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-text-strong">
-                      Text Strong
+                      {t('demo.colorPalette.textStrong')}
                     </span>
                     <span className="text-xs text-text">#141414</span>
                   </div>
@@ -149,7 +142,7 @@ export default function DemoPage() {
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-text-strong">
-                      Text
+                      {t('demo.colorPalette.text')}
                     </span>
                     <span className="text-xs text-text">#434343</span>
                   </div>
@@ -170,7 +163,7 @@ export default function DemoPage() {
             {/* Small Size */}
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-text-strong">
-                Small (Default)
+                {t('demo.buttonSection.small')}
               </h3>
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-4">
@@ -181,7 +174,7 @@ export default function DemoPage() {
                     {t('demo.buttonSection.secondary')}
                   </Button>
                   <Button variant="tertiary" size="sm">
-                    Tertiary
+                    {t('demo.buttonSection.tertiary')}
                   </Button>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
@@ -194,7 +187,8 @@ export default function DemoPage() {
                     {t('demo.buttonSection.disabled')}
                   </Button>
                   <Button variant="tertiary" size="sm" disabled>
-                    Tertiary {t('demo.buttonSection.disabled')}
+                    {t('demo.buttonSection.tertiary')}{' '}
+                    {t('demo.buttonSection.disabled')}
                   </Button>
                 </div>
               </div>
@@ -202,7 +196,9 @@ export default function DemoPage() {
 
             {/* Large Size */}
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-text-strong">Large</h3>
+              <h3 className="text-sm font-semibold text-text-strong">
+                {t('demo.buttonSection.large')}
+              </h3>
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-4">
                   <Button variant="primary" size="lg">
@@ -212,7 +208,7 @@ export default function DemoPage() {
                     {t('demo.buttonSection.secondary')}
                   </Button>
                   <Button variant="tertiary" size="lg">
-                    Tertiary
+                    {t('demo.buttonSection.tertiary')}
                   </Button>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
@@ -225,7 +221,8 @@ export default function DemoPage() {
                     {t('demo.buttonSection.disabled')}
                   </Button>
                   <Button variant="tertiary" size="lg" disabled>
-                    Tertiary {t('demo.buttonSection.disabled')}
+                    {t('demo.buttonSection.tertiary')}{' '}
+                    {t('demo.buttonSection.disabled')}
                   </Button>
                 </div>
               </div>
@@ -234,7 +231,7 @@ export default function DemoPage() {
             {/* With Icons */}
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-text-strong">
-                With Icons
+                {t('demo.buttonSection.withIcons')}
               </h3>
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-4">
@@ -242,19 +239,19 @@ export default function DemoPage() {
                     variant="primary"
                     iconBefore={<CheckIcon className="h-4 w-4" />}
                   >
-                    Icon Before
+                    {t('demo.buttonSection.iconBefore')}
                   </Button>
                   <Button
                     variant="secondary"
                     iconBefore={<CheckIcon className="h-4 w-4" />}
                   >
-                    Icon Before
+                    {t('demo.buttonSection.iconBefore')}
                   </Button>
                   <Button
                     variant="tertiary"
                     iconBefore={<CheckIcon className="h-4 w-4" />}
                   >
-                    Icon Before
+                    {t('demo.buttonSection.iconBefore')}
                   </Button>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
@@ -262,19 +259,19 @@ export default function DemoPage() {
                     variant="primary"
                     iconAfter={<ChevronDownIcon className="h-4 w-4" />}
                   >
-                    Icon After
+                    {t('demo.buttonSection.iconAfter')}
                   </Button>
                   <Button
                     variant="secondary"
                     iconAfter={<ChevronDownIcon className="h-4 w-4" />}
                   >
-                    Icon After
+                    {t('demo.buttonSection.iconAfter')}
                   </Button>
                   <Button
                     variant="tertiary"
                     iconAfter={<ChevronDownIcon className="h-4 w-4" />}
                   >
-                    Icon After
+                    {t('demo.buttonSection.iconAfter')}
                   </Button>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
@@ -283,14 +280,14 @@ export default function DemoPage() {
                     size="lg"
                     iconBefore={<CheckIcon className="h-5 w-5" />}
                   >
-                    Large with Icon
+                    {t('demo.buttonSection.largeWithIcon')}
                   </Button>
                   <Button
                     variant="secondary"
                     size="lg"
                     iconAfter={<ChevronDownIcon className="h-5 w-5" />}
                   >
-                    Large with Icon
+                    {t('demo.buttonSection.largeWithIcon')}
                   </Button>
                   <Button
                     variant="tertiary"
@@ -298,7 +295,7 @@ export default function DemoPage() {
                     iconBefore={<CheckIcon className="h-5 w-5" />}
                     iconAfter={<Cross2Icon className="h-5 w-5" />}
                   >
-                    Both Icons
+                    {t('demo.buttonSection.bothIcons')}
                   </Button>
                 </div>
                 <div className="w-full">
@@ -309,7 +306,7 @@ export default function DemoPage() {
                     iconAfter={<ArrowRightIcon className="h-5 w-5" />}
                     className="w-full"
                   >
-                    Full Width with Both Icons
+                    {t('demo.buttonSection.fullWidthWithIcons')}
                   </Button>
                 </div>
               </div>
@@ -401,36 +398,6 @@ export default function DemoPage() {
           </div>
         </section>
 
-        {/* With Search */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold">
-            {t('demo.multiSelectSection.searchTitle')}
-          </h2>
-          <div className="flex items-center gap-4">
-            <MultiSelect
-              label={t('demo.multiSelectSection.searchItems')}
-              value={selectedItems2}
-              onChange={setSelectedItems2}
-              options={filteredItems}
-              onSearchTermChange={setSearchQuery}
-              placeholder={t('demo.multiSelectSection.typeToSearch')}
-            />
-            <div className="text-sm text-gray-600">
-              {t('demo.multiSelectSection.selected')}:{' '}
-              {selectedItems2.length > 0
-                ? selectedItems2.join(', ')
-                : t('demo.multiSelectSection.none')}
-            </div>
-          </div>
-          {searchQuery && (
-            <p className="text-sm text-gray-500">
-              {t('demo.multiSelectSection.searchingFor', {
-                query: searchQuery,
-              })}
-            </p>
-          )}
-        </section>
-
         {/* With Loading State */}
         <section className="space-y-4">
           <h2 className="text-xl font-semibold">
@@ -471,14 +438,6 @@ export default function DemoPage() {
               </strong>{' '}
               {selectedItems1.length > 0
                 ? selectedItems1.join(', ')
-                : t('demo.multiSelectSection.noneSelected')}
-            </div>
-            <div>
-              <strong>
-                {t('demo.multiSelectSection.list', { number: 2 })}:
-              </strong>{' '}
-              {selectedItems2.length > 0
-                ? selectedItems2.join(', ')
                 : t('demo.multiSelectSection.noneSelected')}
             </div>
           </div>

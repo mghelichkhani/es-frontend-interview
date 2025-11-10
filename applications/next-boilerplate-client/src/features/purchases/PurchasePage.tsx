@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useTranslations } from 'next-intl'
 
@@ -28,14 +28,22 @@ export default function PurchasesPage() {
   } = useProducts()
   const { nodes: users, loading: usersLoading, error: usersError } = useUsers()
 
-  const productOptions: Option[] = products.map((p) => ({
-    id: p.id,
-    label: p.name,
-  }))
-  const userOptions: Option[] = users.map((u) => ({
-    id: u.id,
-    label: `${u.firstName} ${u.lastName}`,
-  }))
+  const productOptions: Option[] = useMemo(
+    () =>
+      products.map((p) => ({
+        id: p.id,
+        label: p.name,
+      })),
+    [products],
+  )
+  const userOptions: Option[] = useMemo(
+    () =>
+      users.map((u) => ({
+        id: u.id,
+        label: `${u.firstName} ${u.lastName}`,
+      })),
+    [users],
+  )
 
   const { nodes, loading, error } = usePurchases(
     selectedProductIds,
@@ -64,9 +72,9 @@ export default function PurchasesPage() {
               size="sm"
               onClick={handleReset}
               iconBefore={<ReloadIcon className="h-4 w-4" />}
-              aria-label="Reset filters"
+              aria-label={t('common.resetFilters')}
             >
-              Reset
+              {t('common.reset')}
             </Button>
             <LanguageSelector />
           </div>
@@ -79,9 +87,9 @@ export default function PurchasesPage() {
                 size="sm"
                 className="md:hidden"
                 iconBefore={<DotsHorizontalIcon className="h-4 w-4" />}
-                aria-label="Menu"
+                aria-label={t('common.menu')}
               >
-                <span className="sr-only">Menu</span>
+                <span className="sr-only">{t('common.menu')}</span>
               </Button>
             </Popover.Trigger>
             <Popover.Portal>
@@ -104,9 +112,9 @@ export default function PurchasesPage() {
                       onClick={handleReset}
                       iconBefore={<ReloadIcon className="h-4 w-4" />}
                       className="w-full justify-start"
-                      aria-label="Reset filters"
+                      aria-label={t('common.resetFilters')}
                     >
-                      Reset
+                      {t('common.reset')}
                     </Button>
                     <div className="px-2 py-1">
                       <LanguageSelector />

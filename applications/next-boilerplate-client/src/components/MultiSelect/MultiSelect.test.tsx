@@ -30,7 +30,6 @@ const mockOptions = [
 
 describe('MultiSelect', () => {
   const mockOnChange = vi.fn()
-  const mockOnSearchTermChange = vi.fn()
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -90,12 +89,7 @@ describe('MultiSelect', () => {
   it('filters items when searching', async () => {
     const user = userEvent.setup()
     render(
-      <MultiSelect
-        value={[]}
-        onChange={mockOnChange}
-        options={mockOptions}
-        onSearchTermChange={mockOnSearchTermChange}
-      />,
+      <MultiSelect value={[]} onChange={mockOnChange} options={mockOptions} />,
     )
 
     const triggerButton = screen.getByRole('button', { name: /select items/i })
@@ -108,12 +102,11 @@ describe('MultiSelect', () => {
     const searchInput = screen.getByRole('searchbox')
     await user.type(searchInput, 'Option 1')
 
-    await waitFor(
-      () => {
-        expect(mockOnSearchTermChange).toHaveBeenCalled()
-      },
-      { timeout: 2000 },
-    )
+    await waitFor(() => {
+      expect(screen.getByText('Option 1')).toBeInTheDocument()
+      expect(screen.queryByText('Option 2')).not.toBeInTheDocument()
+      expect(screen.queryByText('Option 3')).not.toBeInTheDocument()
+    })
   })
 
   it('selects all items when "Select all" is clicked', async () => {

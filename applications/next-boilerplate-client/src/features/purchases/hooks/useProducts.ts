@@ -5,7 +5,7 @@ import { PRODUCTS_QUERY } from '../graphql/products.gql'
 export type ProductNode = {
   id: string
   name: string
-  imageUrl: string
+  imageUrl?: string | null
 }
 
 export function useProducts(searchTerm?: string, first: number = 100) {
