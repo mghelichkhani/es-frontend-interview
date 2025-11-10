@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { MultiSelect, type Option } from '@/components/MultiSelect'
 import { Button } from '@/components/Button'
 import { LanguageSelector } from '@/components/LanguageSelector'
-import { ChevronDownIcon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { ChevronDownIcon, CheckIcon, Cross2Icon, ArrowRightIcon, FileTextIcon } from '@radix-ui/react-icons'
 
 const mockItems: Option[] = [
   { id: '1', label: 'Item A' },
@@ -166,6 +166,11 @@ export default function DemoPage() {
                   <Button variant="primary" size="lg" iconBefore={<CheckIcon className="h-5 w-5" />}>Large with Icon</Button>
                   <Button variant="secondary" size="lg" iconAfter={<ChevronDownIcon className="h-5 w-5" />}>Large with Icon</Button>
                   <Button variant="tertiary" size="lg" iconBefore={<CheckIcon className="h-5 w-5" />} iconAfter={<Cross2Icon className="h-5 w-5" />}>Both Icons</Button>
+                </div>
+                <div className="w-full">
+                  <Button variant="primary" size="lg" iconBefore={<FileTextIcon className="h-5 w-5" />} iconAfter={<ArrowRightIcon className="h-5 w-5" />} className="w-full">
+                    Full Width with Both Icons
+                  </Button>
                 </div>
               </div>
             </div>

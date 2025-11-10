@@ -26,7 +26,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     lg: variant === 'tertiary' ? 'h-[42px] rounded-lg px-4 text-base font-medium' : 'h-11 rounded-lg px-4 text-base font-medium',
   }
   
-  const baseStyles = `${sizeStyles[size]} u-focus-ring colors-transition u-disabled`
+  const baseStyles = `${sizeStyles[size]} u-focus-ring colors-transition u-disabled flex justify-between gap-1`
   
   const variantStyles = {
     primary: 'bg-brand-primary text-white hover:bg-brand-primary-dark active:opacity-90 disabled:hover:bg-brand-primary disabled:active:opacity-60',
@@ -44,11 +44,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
       className={combinedClassName}
       {...props}
     >
-      <span className="flex items-center justify-center gap-2">
-        {iconBefore && <span className="flex-shrink-0">{iconBefore}</span>}
+      {iconBefore && <span className="flex items-center h-full">{iconBefore}</span>}
+      <span className="flex items-center w-full">
         {children}
-        {iconAfter && <span className="flex-shrink-0">{iconAfter}</span>}
       </span>
+      {iconAfter && <span className="flex items-center h-full">{iconAfter}</span>}
     </button>
   )
 })
