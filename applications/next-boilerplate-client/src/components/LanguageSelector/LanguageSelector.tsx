@@ -1,8 +1,9 @@
 'use client'
 
-import { useLocale } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { locales, type Locale, LOCALE_COOKIE_NAME } from '@/i18n/config'
+import { useLocale } from 'next-intl'
+
+import { type Locale, LOCALE_COOKIE_NAME, locales } from '@/i18n/config'
 
 export function LanguageSelector() {
   const locale = useLocale()
@@ -11,7 +12,7 @@ export function LanguageSelector() {
   const handleLocaleChange = (newLocale: Locale) => {
     // Set locale in cookie - next-intl will read this on next request
     document.cookie = `${LOCALE_COOKIE_NAME}=${newLocale}; path=/; max-age=31536000; SameSite=Lax`
-    
+
     // Use router.refresh() to trigger a server-side re-render with the new locale
     // This is more efficient than window.location.reload() as it preserves client state
     router.refresh()
@@ -44,4 +45,3 @@ export function LanguageSelector() {
     </nav>
   )
 }
-
