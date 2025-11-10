@@ -21,8 +21,5 @@
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
   }
 }
