@@ -1,4 +1,5 @@
 import React from 'react'
+
 import * as Checkbox from '@radix-ui/react-checkbox'
 import { CheckIcon } from '@radix-ui/react-icons'
 
@@ -25,15 +26,17 @@ export function MultiSelectOption({
     label?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }
 
-  const labelClassName = isSelectAll 
-    ? 'font-medium' 
+  const labelClassName = isSelectAll
+    ? 'font-medium'
     : 'truncate text-text-strong'
 
   return (
     <label
       className={
         'flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left ' +
-        (isSelected ? 'bg-brand-surface-muted text-brand-primary-dark' : 'hover:bg-brand-surface-muted') +
+        (isSelected
+          ? 'bg-brand-surface-muted text-brand-primary-dark'
+          : 'hover:bg-brand-surface-muted') +
         ' focus-within:bg-brand-surface-muted'
       }
     >
@@ -49,11 +52,8 @@ export function MultiSelectOption({
             <CheckIcon className="w-3 h-3 text-white" />
           </Checkbox.Indicator>
         </Checkbox.Root>
-        <span className={labelClassName}>
-          {label}
-        </span>
+        <span className={labelClassName}>{label}</span>
       </div>
     </label>
   )
 }
-

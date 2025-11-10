@@ -1,29 +1,46 @@
 'use client'
 import { useState } from 'react'
+
 import { useTranslations } from 'next-intl'
-import { usePurchases } from './hooks/usePurchases'
-import { useProducts } from './hooks/useProducts'
-import { useUsers } from './hooks/useUsers'
-import PurchaseRow from './PurchaseRow'
+
+import { DotsHorizontalIcon, ReloadIcon } from '@radix-ui/react-icons'
+import * as Popover from '@radix-ui/react-popover'
+
+import { Button } from '@/components/Button'
+import { LanguageSelector } from '@/components/LanguageSelector'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { MultiSelect, type Option } from '@/components/MultiSelect'
-import { LanguageSelector } from '@/components/LanguageSelector'
-import { Button } from '@/components/Button'
-import { ReloadIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
-import * as Popover from '@radix-ui/react-popover'
+
+import { useProducts } from './hooks/useProducts'
+import { usePurchases } from './hooks/usePurchases'
+import { useUsers } from './hooks/useUsers'
+import PurchaseRow from './PurchaseRow'
 
 export default function PurchasesPage() {
   const t = useTranslations()
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([])
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([])
 
-  const { nodes: products, loading: productsLoading, error: productsError } = useProducts()
+  const {
+    nodes: products,
+    loading: productsLoading,
+    error: productsError,
+  } = useProducts()
   const { nodes: users, loading: usersLoading, error: usersError } = useUsers()
 
-  const productOptions: Option[] = products.map(p => ({ id: p.id, label: p.name }))
-  const userOptions: Option[] = users.map(u => ({ id: u.id, label: `${u.firstName} ${u.lastName}` }))
+  const productOptions: Option[] = products.map((p) => ({
+    id: p.id,
+    label: p.name,
+  }))
+  const userOptions: Option[] = users.map((u) => ({
+    id: u.id,
+    label: `${u.firstName} ${u.lastName}`,
+  }))
 
-  const { nodes, loading, error } = usePurchases(selectedProductIds, selectedUserIds)
+  const { nodes, loading, error } = usePurchases(
+    selectedProductIds,
+    selectedUserIds,
+  )
 
   const handleReset = () => {
     setSelectedProductIds([])
@@ -47,12 +64,13 @@ export default function PurchasesPage() {
               size="sm"
               onClick={handleReset}
               iconBefore={<ReloadIcon className="h-4 w-4" />}
+              aria-label="Reset filters"
             >
               Reset
             </Button>
             <LanguageSelector />
           </div>
-          
+
           {/* Mobile: Show in popover */}
           <Popover.Root>
             <Popover.Trigger asChild>
@@ -74,7 +92,10 @@ export default function PurchasesPage() {
               >
                 <div
                   className="bg-brand-surface-muted p-2"
-                  style={{ borderRadius: '12px', boxShadow: `0 8px 16px 0 rgb(var(--text-strong) / 0.16)` }}
+                  style={{
+                    borderRadius: '12px',
+                    boxShadow: `0 8px 16px 0 rgb(var(--text-strong) / 0.16)`,
+                  }}
                 >
                   <div className="flex flex-col gap-2">
                     <Button
@@ -83,6 +104,7 @@ export default function PurchasesPage() {
                       onClick={handleReset}
                       iconBefore={<ReloadIcon className="h-4 w-4" />}
                       className="w-full justify-start"
+                      aria-label="Reset filters"
                     >
                       Reset
                     </Button>
@@ -131,23 +153,33 @@ export default function PurchasesPage() {
         )}
         {error && (
           <div className="flex items-center justify-center py-8">
-            <span className="text-sm text-red-600">{t('errors.load.purchases')}</span>
+            <span className="text-sm text-red-600">
+              {t('errors.load.purchases')}
+            </span>
           </div>
         )}
         {!loading && !error && nodes.length === 0 && (
-          <div className="p-3 text-sm text-gray-500">{t('purchasesPage.empty')}</div>
+          <div className="p-3 text-sm text-gray-500">
+            {t('purchasesPage.empty')}
+          </div>
         )}
 
         {!loading && nodes.length > 0 && (
-          <table className="w-full">
+          <table className="w-full" aria-label={t('purchasesPage.title')}>
             <thead>
               <tr className="border-b bg-gray-50">
-                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">{t('common.product', { count: 1 })}</th>
-                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">{t('common.user', { count: 1 })}</th>
+                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">
+                  {t('common.product', { count: 1 })}
+                </th>
+                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">
+                  {t('common.user', { count: 1 })}
+                </th>
               </tr>
             </thead>
             <tbody>
-              {nodes.map((p) => <PurchaseRow key={p.id} p={p} />)}
+              {nodes.map((p) => (
+                <PurchaseRow key={p.id} p={p} />
+              ))}
             </tbody>
           </table>
         )}

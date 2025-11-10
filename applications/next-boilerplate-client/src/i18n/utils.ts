@@ -1,10 +1,12 @@
-import { locales, type Locale, defaultLocale, LOCALE_COOKIE_NAME } from './config'
+import { defaultLocale, type Locale, locales } from './config'
 
 /**
  * Detects the user's preferred locale from Accept-Language header
  * Returns a locale that matches the user's browser preferences
  */
-export function detectLocaleFromHeader(acceptLanguage: string | null): Locale | null {
+export function detectLocaleFromHeader(
+  acceptLanguage: string | null,
+): Locale | null {
   if (!acceptLanguage) return null
 
   // Parse Accept-Language header (e.g., "en-US,en;q=0.9,de;q=0.8")
@@ -39,8 +41,11 @@ export function getValidLocale(locale: string | null | undefined): Locale {
 /**
  * Gets the locale from a cookie value
  */
-export function getLocaleFromCookie(cookieValue: string | undefined): Locale | null {
+export function getLocaleFromCookie(
+  cookieValue: string | undefined,
+): Locale | null {
   if (!cookieValue) return null
-  return getValidLocale(cookieValue) !== defaultLocale ? (cookieValue as Locale) : null
+  return getValidLocale(cookieValue) !== defaultLocale
+    ? (cookieValue as Locale)
+    : null
 }
-

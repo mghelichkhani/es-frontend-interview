@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+
 import { USERS_QUERY } from '../graphql/users.gql'
 
 export type UserNode = {
@@ -16,4 +17,3 @@ export function useUsers(searchTerm?: string, first: number = 100) {
   const nodes: UserNode[] = data?.users?.nodes ?? []
   return { nodes, loading, error, refetch }
 }
-

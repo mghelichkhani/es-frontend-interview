@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+
 import { PRODUCTS_QUERY } from '../graphql/products.gql'
 
 export type ProductNode = {
@@ -14,4 +15,3 @@ export function useProducts(searchTerm?: string, first: number = 100) {
   const nodes: ProductNode[] = data?.products?.nodes ?? []
   return { nodes, loading, error, refetch }
 }
-

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { locales, LOCALE_COOKIE_NAME, defaultLocale } from './i18n/config'
+
+import { defaultLocale, LOCALE_COOKIE_NAME, locales } from './i18n/config'
 import { detectLocaleFromHeader } from './i18n/utils'
 
 export function middleware(request: NextRequest) {
@@ -17,12 +18,12 @@ export function middleware(request: NextRequest) {
 
   // If pathname already has a locale prefix, redirect to clean URL
   const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   )
 
   if (pathnameHasLocale) {
     const locale = locales.find(
-      (l) => pathname.startsWith(`/${l}/`) || pathname === `/${l}`
+      (l) => pathname.startsWith(`/${l}/`) || pathname === `/${l}`,
     )
     if (locale) {
       const newPathname = pathname.replace(`/${locale}`, '') || '/'
@@ -41,7 +42,7 @@ export function middleware(request: NextRequest) {
   if (!existingCookie) {
     const acceptLanguage = request.headers.get('accept-language')
     const detectedLocale = detectLocaleFromHeader(acceptLanguage)
-    
+
     if (detectedLocale && detectedLocale !== defaultLocale) {
       // Set cookie for future requests
       response.cookies.set(LOCALE_COOKIE_NAME, detectedLocale, {
@@ -59,5 +60,3 @@ export const config = {
   // Match all pathnames except for static files and API routes
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)'],
 }
-
-

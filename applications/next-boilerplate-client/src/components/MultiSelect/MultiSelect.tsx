@@ -219,6 +219,8 @@ export default function MultiSelect({
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
+            role="dialog"
+            aria-label={defaultLabel}
             className="z-50 outline-none"
             style={{
               width: triggerWidth ? `${triggerWidth}px` : undefined,
@@ -246,6 +248,9 @@ export default function MultiSelect({
                     <input
                       ref={inputRef}
                       id={searchInputId}
+                      type="search"
+                      role="searchbox"
+                      aria-label={defaultPlaceholder}
                       value={localQ}
                       onChange={(e) => {
                         const q = e.target.value
