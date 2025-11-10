@@ -50,6 +50,28 @@ The repository is structured as a monorepo. To get started install all dependenc
 npm install
 ```
 
+### Editor Setup
+
+This project includes editor configuration for VS Code and Cursor. When you open the project, you'll be prompted to install recommended extensions:
+
+- **ESLint** - For code quality and import sorting
+- **Prettier** - For code formatting
+
+The workspace is configured to:
+
+- **Format on save** - Prettier automatically formats your code
+- **Fix ESLint issues on save** - Automatically sorts imports and fixes code quality issues
+- **Pre-commit hooks** - Prettier and ESLint run automatically before commits
+
+If extensions aren't auto-installed, install them manually:
+
+1. Open Extensions (`Cmd+Shift+X` / `Ctrl+Shift+X`)
+2. Search for "ESLint" and "Prettier - Code formatter"
+3. Install both extensions
+4. Reload the window
+
+**Note:** The pre-commit hooks will still work even if editor extensions aren't installed, ensuring code quality before commits.
+
 In this repository you can find 2 folders:
 
 - `graphql-server` - A simple graphql mocked server with a single product query that should be used for the assignment. You are not expected to change anything in this folder or in the implementation of the resolver.
