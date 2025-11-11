@@ -1,54 +1,78 @@
-# Frontend Interview Challenge
+# Frontend Interview Project
 
-> [!IMPORTANT]
-> You should have received a google doc together with this repository that explains in detail the scope and context of the exercise, together with it's acceptance criteria and any other necessary information for the completion of the challenge.
+This is a Next.js application for managing and viewing purchases with filtering capabilities. The project includes a purchases page with product and user filters, a demo page for component testing, and a GraphQL server for data management.
 
-## Part 1 - Implement a re-usable multi-selection component
+**Tech Stack:** Next.js 14, React 18, TypeScript, Apollo Client, GraphQL, Tailwind CSS, Radix UI, Vitest, Playwright
 
-Develop a reusable and responsive multi-selection component based on the provided Figma design that can be used within different contexts (you need to log in to be able to view details about the components):
+## Introduction
 
-https://www.figma.com/design/WvBKY6iRvC6iVN35VQgNIP/Eversports---Front-End-Task?node-id=1-821
+This project was built as a time-boxed frontend challenge. The main application displays purchases in a tabular format with filtering capabilities. A demo page at `/demo` showcases all components and design tokens for testing purposes. Design tokens are defined in `tokens.css` and used throughout the application for consistent styling.
 
-> [!NOTE]
-> Since there’s no design system provided for you, feel free to either reach out to any component library that you would like to use to help you with the building blocks for the UI or to implement the components themselves from scratch. The design specs from figma should be respected and match as close as possible independently of which solution you choose.
+# Assumptions & Decisions
 
-### 🎯 Acceptance Criteria
+## 🎨 Design & UX Decisions
 
-- As a user I can search for specific products.
-- As a user I can see the list of queried items.
-- As a user I can select or deselect all products at once.
-- As a user I can select/deselect each product individually.
-- As a user I can cancel the selection process and revert any changes by clicking the cancel button or clicking outside of the dropdown.
-- As a user I can apply my product selection by clicking the apply button.
-- As a user I can use the filter in different types of screen sizes.
+**Layout change:**
+The task description suggested a grid of product cards, which didn't make much sense to me from a business perspective. A huge gallery of random products doesn't add much value. So I went for a tabular layout instead — it's easier to scan and understand purchases in relation to users and products.
 
-## Part 2 - Integrate the component within a page
+**Visual feedback:**
+Added small touches like a toast notification when new records load and a background color animation for newly fetched rows. This helps users to distinguish the newly loaded items.
 
-Build a page that shows a list of purchased products by users leveraging the component from part 1 to allow for the filtering of both products and users. This list should show the purchases that are the result of applying those filters.
+**Quick reset:**
+Added a small badge/reset button in the MultiSelect to clear selections in a single click action
 
-The UI below is just a representation of how we expect the page to look, but feel free to customize it however you feel best, the important part is to see the component you developed from before in action within the context of a general web application.
+**MultiSelect usability features:**
+The MultiSelect component includes several usability enhancements:
 
-In the page the user can interact with both a product and a user filter and see the filtered data when the filters are applied.
+- Alphabetical sorting option for easier navigation
+- Automatic prioritization of selected items (moved to the top) for longer lists (10+ items)
+- Option re-arranging that only occurs after clicking Apply to prevent confusion during selection
 
-<p align="center">
-    <img width="599" alt="image" src="https://github.com/user-attachments/assets/dd806009-ab87-494a-bdd4-d3f31c814047">
-</p>
+**Focus state:**
+Added focus state and keyboard navigation for all UI elements. (e.g., user can use Enter and ESC keys to interact with the MultiSelect)
 
-### 🎯 Acceptance Criteria
+**Pagination:**
+Added a simple “Load more” button. In production, this could evolve into grouped purchase views per product and expandable rows for detailed purchase data.
 
-- As a user I can filter purchases by specific products.
-- As a user I can filter purchases by specific users.
-- As a user I can see the results of my selection.
-- As a user I can clear the filter selection.
-- As a user I can use the filters in different types of screen sizes.
+## ⚙️ Technical & Architecture Choices
 
-## Repository Intro
+**AI-assisted coding:**
+Since this is a time-boxed challenge, I decided to lean on AI agents to generate some boilerplate and repetitive logic (e.g. component structure, prop types). In a real project, I'd spend more time designing consistent patterns upfront so future components follow the same conventions.
 
-The repository is structured as a monorepo. To get started install all dependencies in the root folder.
+**Radix UI usage:**
+Used Radix primitives (like Dialog, Checkbox) for accessibility and consistent behavior without reinventing base logic. I didn't evaluate long-term maintainability or theming tradeoffs here — it was a practical choice to move faster and focus on core functionality.
 
-```sh
-npm install
-```
+**Design tokens:**
+Design tokens are centralized in `tokens.css` using CSS custom properties. This includes brand colors, surface colors, text colors and borders. The tokens are used throughout the application via Tailwind CSS configuration for consistent theming.
+
+**Pre-commit checks:**
+Added Husky hooks for code formatting and basic linting. Even for small projects, I like keeping the code clean and predictable.
+
+**Library alignment:**
+In a real-world setup, I'd align choices like UI libraries, i18n, validation, or routing conventions with the team or across the engineering department. The goal would be to avoid fragmentation and make sure new components can plug into existing systems smoothly.
+
+**Form validation:**
+Skipped input validation here, since product names can be arbitrary and this isn't a production app.
+
+**Commit messages:**
+The commit messages are a bit inconsistent since I was experimenting quickly. Normally I'd follow conventional commits.
+
+## 🧪 Testing & Scope Decisions
+
+**Scope priorities:**
+Focused testing efforts on the MultiSelect logic and one main end-to-end scenario that covers the filtering flow. With more time, I'd expand to integration tests and accessibility snapshots.
+
+**Mobile testing:**
+Skipped mobile E2E tests, mainly because this feels like an internal desktop tool, but I did manually check responsiveness at different breakpoints.
+
+**Core Web Vitals:**
+Left out performance optimization (Lighthouse, Web Vitals, etc.) — again, mostly due to the internal nature of this task.
+
+**i18n:**
+Added a simple translations file, using ICU format (based on my personal experience with Lokalize)
+
+**Demo page:**
+Added a demo page at `/demo` for testing and QA purposes, allowing components to be tested in isolation. The page showcases all design tokens, component variations, and interactive examples. In a production setup, a tool like Storybook would be more appropriate for component documentation and testing.
 
 ### Editor Setup
 
@@ -72,80 +96,24 @@ If extensions aren't auto-installed, install them manually:
 
 **Note:** The pre-commit hooks will still work even if editor extensions aren't installed, ensuring code quality before commits.
 
-In this repository you can find 2 folders:
+### Available Commands
 
-- `graphql-server` - A simple graphql mocked server with a single product query that should be used for the assignment. You are not expected to change anything in this folder or in the implementation of the resolver.
+Development:
 
-  ### Usage
+- **`npm run dev`** - Start the development server
+- **`npm run build`** - Build the application for production
+- **`npm run start`** - Start the production server (requires build first)
 
-  ```sh
-  npm run dev:server
-  ```
+Code Quality:
 
-  This will start a graphql-server at http://localhost:4000/. You should be able to see the following:
+- **`npm run lint`** - Run ESLint to check for code quality issues
+- **`npm run lint:fix`** - Run ESLint and automatically fix issues
 
-    <img width="1796" alt="image" src="https://github.com/eversport/frontend-interview/assets/3718438/d0ead1b8-da66-4925-9d9f-cc6cc2de1863">
+Testing:
 
-  When clicking `"Query your server"`, you should be able to see the graphql sandbox explorer where you can explore both the query and the data for the products/users/purchases resolver in order to get more comfortable with the schema. In the left sidebart you see an overview of all different available queries.
-
-    <img width="1800" alt="image" src="https://github.com/eversport/frontend-interview/assets/3718438/4e23ca49-d075-47bc-ba8b-71559a18c68d">
-
-  Here is an example of a query you could use to fetch products:
-
-  ```graphql
-  query ExampleQuery($first: Int, $after: String, $searchTerm: String) {
-    products(first: $first, after: $after, searchTerm: $searchTerm) {
-      pageInfo {
-        startCursor
-        endCursor
-        hasPreviousPage
-        hasNextPage
-      }
-      nodes {
-        id
-        name
-      }
-    }
-  }
-  ```
-
-- `next-boilerplate-client` - A bootstrapped NextJs application with a basic typescript + tailwind configuration with a simple apollo graphql config to fetch data from `graphql-server`. It contains at the root route, an example of the fetching of the products query and it's usage. Feel free to edit anything you want, to add or remove files, to use an alternative styling solution or even setup the graphql integration differently.
-
-  ### Usage
-
-  ```sh
-  npm run dev:client
-  ```
-
-  This will start a NextJs app at http://localhost:3000/. In it you will find a simple example of a client component that fetches data and displays the first 10 products.
-
-    <img width="1800" alt="image" src="https://github.com/eversport/frontend-interview/assets/3718438/b62acbe8-1e39-4eac-a99e-7bcc8c6a5ed4">
-
-## 🗒️ Conditions
-
-- You will have multiple days for the challenge, but most of our candidates spend around **8h to 10h** on this assignment.
-- You should put your code in GitHub or GitLab/Bitbucket and send us the link to your repository where we can find the source code. That means no ZIP files.
-- Please make sure to include any additional instructions in a readme in case you change something about the compilation or execution of the codebase.
-
-## 💻 Technologies:
-
-We believe that great developers are not bound to a specific technology set, but no matter their toolbox they are able to think critically about how to structure and design good code, but because we would like you to work in our current modern stack we would like for this challenge to be as close as possible to the normal everyday stack you would work with. For that reason the challenge should be completed with:
-
-#### Required
-
-- React - https://reactjs.org/
-
-#### Optional
-
-- TypeScript - https://www.typescriptlang.org/
-- Tailwind - https://tailwindcss.com/
-- NextJs - https://nextjs.org/
-
-### Other Resources
-
-- Apollo Documentation - https://www.apollographql.com/docs/
-- Shadcn/ui - https://ui.shadcn.com/
-- Radix - https://www.radix-ui.com/
-- Relay graphql cursor specs - https://relay.dev/graphql/connections.htm
-
-Best of luck and looking forward to what you are able to accomplish! 🙂
+- **`npm run test`** - Run unit tests with Vitest
+- **`npm run test:ui`** - Run unit tests with Vitest UI (interactive test runner)
+- **`npm run test:e2e`** - Run end-to-end tests with Playwright (headless)
+- **`npm run test:e2e:headed`** - Run end-to-end tests with Playwright (headed browser)
+- **`npm run test:e2e:debug`** - Run end-to-end tests in debug mode
+- **`npm run test:e2e:ui`** - Run end-to-end tests with Playwright UI (interactive test runner)
