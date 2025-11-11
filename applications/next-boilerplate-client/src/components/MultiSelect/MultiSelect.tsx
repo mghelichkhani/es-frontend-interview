@@ -26,6 +26,9 @@ type Props = {
   placeholder?: string
   isLoading?: boolean
   error?: string | null
+  prioritizeSelected?: boolean
+  prioritizeThreshold?: number
+  sortAlphabetically?: boolean
 }
 
 export default function MultiSelect({
@@ -36,6 +39,9 @@ export default function MultiSelect({
   placeholder,
   isLoading,
   error,
+  prioritizeSelected = false,
+  prioritizeThreshold = 10,
+  sortAlphabetically = false,
 }: Props) {
   const t = useTranslations()
   const defaultLabel = label ?? t('multiSelect.defaultLabel')
@@ -106,13 +112,32 @@ export default function MultiSelect({
         if (footerDiv && footerDiv.contains(target)) return
 
         // Apply values when Enter is pressed on checkboxes, search input, or within the checkbox group
-        const isInCheckboxGroup = target.closest(`#${groupId}`)
+        // Check if element is within the checkbox group by traversing parents
+        let isInCheckboxGroup = false
+        let current: HTMLElement | null = target
+        while (current) {
+          if (current.id === groupId) {
+            isInCheckboxGroup = true
+            break
+          }
+          current = current.parentElement
+        }
         const isSearchInput = target.id === searchInputId
         const isCheckbox =
           target.getAttribute('role') === 'checkbox' ||
           target.closest('[role="checkbox"]')
-        const isLabel =
-          target.tagName === 'LABEL' && target.closest(`#${groupId}`)
+        // Check if label is within the checkbox group
+        let isLabel = false
+        if (target.tagName === 'LABEL') {
+          current = target.parentElement
+          while (current) {
+            if (current.id === groupId) {
+              isLabel = true
+              break
+            }
+            current = current.parentElement
+          }
+        }
 
         if (isInCheckboxGroup || isSearchInput || isCheckbox || isLabel) {
           e.preventDefault()
@@ -168,9 +193,55 @@ export default function MultiSelect({
   }, [localQ])
   const filtered = useMemo(() => {
     const q = effectiveQ.trim().toLowerCase()
-    if (!q) return options
-    return options.filter((o) => o.label.toLowerCase().includes(q))
-  }, [options, effectiveQ])
+    let result = !q
+      ? options
+      : options.filter((o) => o.label.toLowerCase().includes(q))
+
+    // Sort alphabetically if enabled
+    if (sortAlphabetically) {
+      result = [...result].sort((a, b) =>
+        a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }),
+      )
+    }
+
+    // Prioritize selected items if enabled and list is long enough
+    // Use value (applied state) instead of draft so re-arranging only happens after Apply
+    const appliedValueSet = new Set(value)
+    if (
+      prioritizeSelected &&
+      result.length >= prioritizeThreshold &&
+      appliedValueSet.size > 0
+    ) {
+      const selected: Option[] = []
+      const unselected: Option[] = []
+      result.forEach((o) => {
+        if (appliedValueSet.has(o.id)) {
+          selected.push(o)
+        } else {
+          unselected.push(o)
+        }
+      })
+      // If sorting is enabled, sort each group alphabetically
+      if (sortAlphabetically) {
+        selected.sort((a, b) =>
+          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }),
+        )
+        unselected.sort((a, b) =>
+          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }),
+        )
+      }
+      result = [...selected, ...unselected]
+    }
+
+    return result
+  }, [
+    options,
+    effectiveQ,
+    prioritizeSelected,
+    prioritizeThreshold,
+    value,
+    sortAlphabetically,
+  ])
 
   return (
     <div className="text-sm">
@@ -197,8 +268,25 @@ export default function MultiSelect({
             <span className="flex items-center gap-2">
               <span className="font-medium">{defaultLabel}</span>
               {appliedCount > 0 && (
-                <span className="rounded-full bg-brand-surface-muted px-2 py-0.5 text-[11px]">
-                  {appliedCount}
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onChange([])
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      onChange([])
+                    }
+                  }}
+                  className="group flex items-center gap-1 rounded-md bg-brand-primary px-2 py-0.5 text-white transition-colors hover:bg-brand-primary-dark u-focus-ring cursor-pointer"
+                  aria-label={t('common.clear')}
+                >
+                  <span>{appliedCount}</span>
+                  <Cross2Icon className="h-3 w-3" />
                 </span>
               )}
             </span>
@@ -271,8 +359,8 @@ export default function MultiSelect({
                 aria-label={defaultLabel}
                 className={
                   error
-                    ? 'mt-2 max-h-64 overflow-auto rounded-md'
-                    : 'max-h-64 overflow-auto rounded-md'
+                    ? 'mt-2 max-h-64 overflow-auto'
+                    : 'max-h-64 overflow-auto'
                 }
               >
                 {/* Select all row (active style when all selected) - hidden when loading, error, or search has value */}
@@ -295,7 +383,6 @@ export default function MultiSelect({
                           ? t('common.deselectAll')
                           : t('common.selectAll')
                       }
-                      isSelected={allOnPageSelected}
                       isSelectAll={true}
                     />
                     <div className="h-px bg-border-divider" />

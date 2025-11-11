@@ -18,7 +18,8 @@
     "clearSearch": "Clear search",
     "reset": "Reset",
     "menu": "Menu",
-    "resetFilters": "Reset filters"
+    "resetFilters": "Reset filters",
+    "close": "Close"
   },
   "errors": {
     "load": {
@@ -40,6 +41,8 @@
     },
     "loading": "Loading purchases…",
     "empty": "No purchases",
+    "loadMore": "Load More",
+    "itemsLoaded": "{count, plural, one {1 new item loaded} other {# new items loaded}}",
     "table": {
       "product": "Product",
       "user": "User"
@@ -73,25 +76,41 @@
       "errorTitle": "With Error State",
       "selectedTitle": "Selected Values",
       "selectItems": "Select Items",
+      "selectFruits": "Select Fruits",
       "loadingItems": "Loading Items",
       "errorExample": "Error Example",
       "typeToSearch": "Type to search...",
       "selected": "Selected",
       "none": "None",
       "noneSelected": "None selected",
-      "list": "List {number}"
+      "list": "List {number}",
+      "unsortedDescription": "This multiselect shows items in their original order (unsorted).",
+      "thresholdTitle": "With Threshold & Prioritization",
+      "thresholdDescription": "This multiselect has 18 items. When you select items and click Apply, selected items will move to the top (only when list has 10+ items). Items are also sorted alphabetically."
     },
     "colorPalette": {
       "title": "Color Palette",
       "brandColors": "Brand Colors",
       "surfaces": "Surfaces",
       "textColors": "Text Colors",
+      "borders": "Borders & Dividers",
+      "grays": "Grays",
       "primary": "Primary",
       "primaryDark": "Primary Dark",
       "surface": "Surface",
       "surfaceMuted": "Surface Muted",
+      "surfaceMutedHover": "Surface Muted Hover",
+      "surfacePressed": "Surface Pressed",
       "textStrong": "Text Strong",
-      "text": "Text"
+      "text": "Text",
+      "textMuted": "Text Muted",
+      "textSubtle": "Text Subtle",
+      "borderDivider": "Border Divider",
+      "borderSubtle": "Border Subtle",
+      "gray50": "Gray 50",
+      "gray200": "Gray 200",
+      "gray500": "Gray 500",
+      "gray600": "Gray 600"
     },
     "pluralization": {
       "title": "Pluralization Examples",
@@ -106,6 +125,12 @@
       "german": "German",
       "ariaLabel": "Language selector",
       "switchTo": "Switch to {language}"
+    },
+    "toastSection": {
+      "title": "Toast Notification",
+      "showToast": "Show Toast",
+      "description": "Click the button to see a toast notification appear in the top right corner.",
+      "exampleMessage": "This is an example toast notification message."
     }
   }
 }

@@ -69,11 +69,15 @@ test.describe('Purchases Page', () => {
       const filterButton = page.getByRole('button', {
         name: /filter by product/i,
       })
-      const badge = filterButton.locator('span.rounded-full').first()
+      // Badge is now a span with role="button" and rounded-md class, contains count and X icon
+      const badge = filterButton
+        .locator('span[role="button"][aria-label*="Clear"]')
+        .first()
       await expect(badge).toBeVisible()
 
       const badgeText = await badge.textContent()
-      const selectedCount = parseInt(badgeText || '0', 10)
+      // Extract just the number (badge contains number and X icon)
+      const selectedCount = parseInt(badgeText?.match(/\d+/)?.[0] || '0', 10)
       expect(selectedCount).toBeGreaterThan(0)
 
       // Verify row count changed (filter was applied)

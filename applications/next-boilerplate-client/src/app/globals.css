@@ -28,3 +28,42 @@ body {
     @apply disabled:opacity-60 disabled:cursor-not-allowed;
   }
 }
+
+@keyframes highlight {
+  0% {
+    background-color: rgb(var(--brand-primary) / 0.1);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(calc(100% + 1rem));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.animate-highlight {
+  animation: highlight 2s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-hide {
+  animation: hide 0.2s ease-in;
+}

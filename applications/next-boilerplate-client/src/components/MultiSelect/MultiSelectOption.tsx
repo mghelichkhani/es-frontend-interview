@@ -8,7 +8,6 @@ type MultiSelectOptionProps = {
   onChange: (checked: boolean) => void
   label: string
   ariaLabel: string
-  isSelected?: boolean
   isSelectAll?: boolean
 }
 
@@ -17,7 +16,6 @@ export function MultiSelectOption({
   onChange,
   label,
   ariaLabel,
-  isSelected = false,
   isSelectAll = false,
 }: MultiSelectOptionProps) {
   const handleFocus = () => {
@@ -33,11 +31,7 @@ export function MultiSelectOption({
   return (
     <label
       className={
-        'flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left ' +
-        (isSelected
-          ? 'bg-brand-surface-muted text-brand-primary-dark'
-          : 'hover:bg-brand-surface-muted') +
-        ' focus-within:bg-brand-surface-muted'
+        'flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left transition-colors hover:bg-border-divider focus-within:bg-border-divider'
       }
     >
       <div className="flex items-center gap-2">
@@ -46,10 +40,10 @@ export function MultiSelectOption({
           onCheckedChange={(checked) => onChange(checked === true)}
           onFocus={handleFocus}
           aria-label={ariaLabel}
-          className="w-4 h-4 rounded-sm border border-text flex items-center justify-center data-[state=checked]:bg-brand-primary u-focus-ring"
+          className="w-5 h-5 rounded border border-text-muted flex items-center justify-center data-[state=checked]:bg-white data-[state=checked]:p-[1px] u-focus-ring"
         >
-          <Checkbox.Indicator>
-            <CheckIcon className="w-3 h-3 text-white" />
+          <Checkbox.Indicator className="w-[calc(100%-1px)] h-[calc(100%-1px)] rounded-sm bg-brand-primary flex items-center justify-center">
+            <CheckIcon className="w-3.5 h-3.5 text-white" />
           </Checkbox.Indicator>
         </Checkbox.Root>
         <span className={labelClassName}>{label}</span>

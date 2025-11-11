@@ -7,14 +7,22 @@ import Image from 'next/image'
 import type { PurchaseNode } from './hooks/usePurchases'
 export type PurchaseRowProps = {
   p: PurchaseNode
+  isNewlyAdded?: boolean
 }
 
-export default function PurchaseRow({ p }: PurchaseRowProps) {
+export default function PurchaseRow({
+  p,
+  isNewlyAdded = false,
+}: PurchaseRowProps) {
   const [productImageError, setProductImageError] = useState(false)
   const [userImageError, setUserImageError] = useState(false)
 
   return (
-    <tr className="border-t">
+    <tr
+      className={`border-b border-border-subtle last:border-b-0 transition-colors ${
+        isNewlyAdded ? 'animate-highlight' : ''
+      }`}
+    >
       <td className="p-2 md:p-3">
         <div className="flex items-center gap-2">
           {p.product.imageUrl && !productImageError ? (

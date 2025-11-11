@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/Button'
 import { LanguageSelector } from '@/components/LanguageSelector'
 import { MultiSelect, type Option } from '@/components/MultiSelect'
+import { Toast } from '@/components/Toast'
 
 const mockItems: Option[] = [
   { id: '1', label: 'Item A' },
@@ -27,11 +28,35 @@ const mockItems: Option[] = [
   { id: '8', label: 'Item H' },
 ]
 
+// Larger list for threshold demonstration (more than 10 items)
+const mockItemsLarge: Option[] = [
+  { id: '1', label: 'Apple' },
+  { id: '2', label: 'Banana' },
+  { id: '3', label: 'Cherry' },
+  { id: '4', label: 'Date' },
+  { id: '5', label: 'Elderberry' },
+  { id: '6', label: 'Fig' },
+  { id: '7', label: 'Grape' },
+  { id: '8', label: 'Honeydew' },
+  { id: '9', label: 'Kiwi' },
+  { id: '10', label: 'Lemon' },
+  { id: '11', label: 'Mango' },
+  { id: '12', label: 'Orange' },
+  { id: '13', label: 'Papaya' },
+  { id: '14', label: 'Quince' },
+  { id: '15', label: 'Raspberry' },
+  { id: '16', label: 'Strawberry' },
+  { id: '17', label: 'Tangerine' },
+  { id: '18', label: 'Watermelon' },
+]
+
 export default function DemoPage() {
   const t = useTranslations()
   const [selectedItems1, setSelectedItems1] = useState<string[]>([])
+  const [selectedItems2, setSelectedItems2] = useState<string[]>([])
   const [userCount, setUserCount] = useState(1)
   const [resultCount, setResultCount] = useState(1)
+  const [toastOpen, setToastOpen] = useState(false)
 
   return (
     <div className="mx-auto max-w-4xl p-8">
@@ -114,6 +139,34 @@ export default function DemoPage() {
                     <span className="text-xs text-text">#F9FBFB</span>
                   </div>
                 </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{
+                      backgroundColor: 'rgb(var(--brand-surface-muted-hover))',
+                    }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.surfaceMutedHover')}
+                    </span>
+                    <span className="text-xs text-text">#F0F0F0</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{
+                      backgroundColor: 'rgb(var(--brand-surface-pressed))',
+                    }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.surfacePressed')}
+                    </span>
+                    <span className="text-xs text-text">#E5E5E5</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -145,6 +198,120 @@ export default function DemoPage() {
                       {t('demo.colorPalette.text')}
                     </span>
                     <span className="text-xs text-text">#434343</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--text-muted))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.textMuted')}
+                    </span>
+                    <span className="text-xs text-text">#6B7280</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--text-subtle))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.textSubtle')}
+                    </span>
+                    <span className="text-xs text-text">#111827</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Borders & Dividers */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">
+                {t('demo.colorPalette.borders')}
+              </h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--border-divider))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.borderDivider')}
+                    </span>
+                    <span className="text-xs text-text">#E0E0E0</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--border-subtle))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.borderSubtle')}
+                    </span>
+                    <span className="text-xs text-text">#D1D5DB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Grays */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-text-strong">
+                {t('demo.colorPalette.grays')}
+              </h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--gray-50))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.gray50')}
+                    </span>
+                    <span className="text-xs text-text">#F9FAFB</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--gray-200))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.gray200')}
+                    </span>
+                    <span className="text-xs text-text">#E5E7EB</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--gray-500))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.gray500')}
+                    </span>
+                    <span className="text-xs text-text">#6B7280</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-12 w-12 rounded border border-[#D1D5DB]"
+                    style={{ backgroundColor: 'rgb(var(--gray-600))' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-strong">
+                      {t('demo.colorPalette.gray600')}
+                    </span>
+                    <span className="text-xs text-text">#4B5563</span>
                   </div>
                 </div>
               </div>
@@ -377,22 +544,53 @@ export default function DemoPage() {
         <div className="h-px bg-gray-200" />
 
         {/* MultiSelect Components */}
-        {/* Basic Usage */}
+        {/* Basic Usage - Unsorted */}
         <section className="space-y-4">
           <h2 className="text-xl font-semibold">
             {t('demo.multiSelectSection.basicTitle')}
           </h2>
-          <div className="flex items-center gap-4">
+          <p className="text-sm text-gray-600">
+            {t('demo.multiSelectSection.unsortedDescription')}
+          </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <MultiSelect
               label={t('demo.multiSelectSection.selectItems')}
               value={selectedItems1}
               onChange={setSelectedItems1}
               options={mockItems}
+              sortAlphabetically={false}
             />
             <div className="text-sm text-gray-600">
               {t('demo.multiSelectSection.selected')}:{' '}
               {selectedItems1.length > 0
                 ? selectedItems1.join(', ')
+                : t('demo.multiSelectSection.none')}
+            </div>
+          </div>
+        </section>
+
+        {/* With Threshold and Prioritization - Sorted */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold">
+            {t('demo.multiSelectSection.thresholdTitle')}
+          </h2>
+          <p className="text-sm text-gray-600">
+            {t('demo.multiSelectSection.thresholdDescription')}
+          </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <MultiSelect
+              label={t('demo.multiSelectSection.selectFruits')}
+              value={selectedItems2}
+              onChange={setSelectedItems2}
+              options={mockItemsLarge}
+              prioritizeSelected={true}
+              prioritizeThreshold={10}
+              sortAlphabetically={true}
+            />
+            <div className="text-sm text-gray-600">
+              {t('demo.multiSelectSection.selected')}:{' '}
+              {selectedItems2.length > 0
+                ? selectedItems2.join(', ')
                 : t('demo.multiSelectSection.none')}
             </div>
           </div>
@@ -426,23 +624,30 @@ export default function DemoPage() {
           />
         </section>
 
-        {/* Selected Values Display */}
+        <div className="h-px bg-gray-200" />
+
+        {/* Toast Component */}
         <section className="space-y-4">
           <h2 className="text-xl font-semibold">
-            {t('demo.multiSelectSection.selectedTitle')}
+            {t('demo.toastSection.title')}
           </h2>
-          <div className="space-y-2 rounded border p-4">
-            <div>
-              <strong>
-                {t('demo.multiSelectSection.list', { number: 1 })}:
-              </strong>{' '}
-              {selectedItems1.length > 0
-                ? selectedItems1.join(', ')
-                : t('demo.multiSelectSection.noneSelected')}
-            </div>
+          <div className="space-y-3">
+            <Button variant="primary" onClick={() => setToastOpen(true)}>
+              {t('demo.toastSection.showToast')}
+            </Button>
+            <p className="text-sm text-gray-600">
+              {t('demo.toastSection.description')}
+            </p>
           </div>
         </section>
       </div>
+
+      <Toast
+        open={toastOpen}
+        onOpenChange={setToastOpen}
+        description={t('demo.toastSection.exampleMessage')}
+        duration={3000}
+      />
     </div>
   )
 }

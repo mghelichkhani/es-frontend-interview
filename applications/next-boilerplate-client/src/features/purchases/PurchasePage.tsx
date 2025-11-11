@@ -1,25 +1,30 @@
 'use client'
-import { useMemo, useState } from 'react'
+
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { useTranslations } from 'next-intl'
 
-import { DotsHorizontalIcon, ReloadIcon } from '@radix-ui/react-icons'
-import * as Popover from '@radix-ui/react-popover'
+import { type Option } from '@/components/MultiSelect'
+import { Toast } from '@/components/Toast'
 
-import { Button } from '@/components/Button'
-import { LanguageSelector } from '@/components/LanguageSelector'
-import { LoadingSpinner } from '@/components/LoadingSpinner'
-import { MultiSelect, type Option } from '@/components/MultiSelect'
-
+import { LoadMoreButton } from './components/LoadMoreButton'
+import { PurchaseFilters } from './components/PurchaseFilters'
+import { PurchasePageHeader } from './components/PurchasePageHeader'
+import { PurchaseTableBody } from './components/PurchaseTableBody'
+import { PurchaseTableHeader } from './components/PurchaseTableHeader'
 import { useProducts } from './hooks/useProducts'
 import { usePurchases } from './hooks/usePurchases'
 import { useUsers } from './hooks/useUsers'
-import PurchaseRow from './PurchaseRow'
 
 export default function PurchasesPage() {
   const t = useTranslations()
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([])
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([])
+  const [isLoadingMoreOptimistic, setIsLoadingMoreOptimistic] = useState(false)
+  const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set())
+  const [toastOpen, setToastOpen] = useState(false)
+  const [toastCount, setToastCount] = useState(0)
+  const previousNodesLengthRef = useRef(0)
 
   const {
     nodes: products,
@@ -45,120 +50,72 @@ export default function PurchasesPage() {
     [users],
   )
 
-  const { nodes, loading, error } = usePurchases(
-    selectedProductIds,
-    selectedUserIds,
-  )
+  const { nodes, error, loadMore, hasMore, isLoadingMore, isInitialLoading } =
+    usePurchases(selectedProductIds, selectedUserIds)
+
+  // Track newly added items and show toast
+  useEffect(() => {
+    if (isInitialLoading || nodes.length === 0) {
+      previousNodesLengthRef.current = nodes.length
+      return
+    }
+
+    const newCount = nodes.length - previousNodesLengthRef.current
+    if (newCount > 0 && previousNodesLengthRef.current > 0) {
+      // New items were added
+      const newIds = new Set(
+        nodes.slice(previousNodesLengthRef.current).map((n) => n.id),
+      )
+      setNewlyAddedIds(newIds)
+      setToastCount(newCount)
+      setToastOpen(true)
+
+      // Clear highlight after animation
+      setTimeout(() => {
+        setNewlyAddedIds(new Set())
+      }, 2000)
+    }
+
+    previousNodesLengthRef.current = nodes.length
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodes.length, isInitialLoading])
 
   const handleReset = () => {
     setSelectedProductIds([])
     setSelectedUserIds([])
+    setIsLoadingMoreOptimistic(false)
+    setNewlyAddedIds(new Set())
   }
+
+  const handleLoadMore = async () => {
+    setIsLoadingMoreOptimistic(true)
+    try {
+      await loadMore()
+    } finally {
+      setIsLoadingMoreOptimistic(false)
+    }
+  }
+
+  const showLoadingMorePlaceholders = isLoadingMoreOptimistic || isLoadingMore
 
   return (
     <div className="mx-auto max-w-5xl p-4">
-      <header className="mb-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">
-          {t('purchasesPage.title')}{' '}
-          <span className="text-sm font-normal text-gray-600">
-            ({nodes.length} {t('common.result', { count: nodes.length })})
-          </span>
-        </h1>
-        <div className="flex items-center gap-4">
-          {/* Desktop: Show buttons directly */}
-          <div className="hidden md:flex items-center gap-4">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleReset}
-              iconBefore={<ReloadIcon className="h-4 w-4" />}
-              aria-label={t('common.resetFilters')}
-            >
-              {t('common.reset')}
-            </Button>
-            <LanguageSelector />
-          </div>
+      <PurchasePageHeader resultCount={nodes.length} onReset={handleReset} />
 
-          {/* Mobile: Show in popover */}
-          <Popover.Root>
-            <Popover.Trigger asChild>
-              <Button
-                variant="secondary"
-                size="sm"
-                className="md:hidden"
-                iconBefore={<DotsHorizontalIcon className="h-4 w-4" />}
-                aria-label={t('common.menu')}
-              >
-                <span className="sr-only">{t('common.menu')}</span>
-              </Button>
-            </Popover.Trigger>
-            <Popover.Portal>
-              <Popover.Content
-                className="z-50 outline-none"
-                sideOffset={8}
-                align="end"
-              >
-                <div
-                  className="bg-brand-surface-muted p-2"
-                  style={{
-                    borderRadius: '12px',
-                    boxShadow: `0 8px 16px 0 rgb(var(--text-strong) / 0.16)`,
-                  }}
-                >
-                  <div className="flex flex-col gap-2">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={handleReset}
-                      iconBefore={<ReloadIcon className="h-4 w-4" />}
-                      className="w-full justify-start"
-                      aria-label={t('common.resetFilters')}
-                    >
-                      {t('common.reset')}
-                    </Button>
-                    <div className="px-2 py-1">
-                      <LanguageSelector />
-                    </div>
-                  </div>
-                </div>
-              </Popover.Content>
-            </Popover.Portal>
-          </Popover.Root>
-        </div>
-      </header>
+      <PurchaseFilters
+        productOptions={productOptions}
+        userOptions={userOptions}
+        selectedProductIds={selectedProductIds}
+        selectedUserIds={selectedUserIds}
+        onProductChange={setSelectedProductIds}
+        onUserChange={setSelectedUserIds}
+        productsLoading={productsLoading}
+        usersLoading={usersLoading}
+        productsError={productsError ? t('errors.load.products') : null}
+        usersError={usersError ? t('errors.load.users') : null}
+      />
 
-      {/* Filters */}
-      <div className="mb-4 flex flex-col gap-4 sm:flex-row">
-        <div className="w-full sm:flex-1">
-          <MultiSelect
-            label={t('purchasesPage.filter.products')}
-            value={selectedProductIds}
-            onChange={setSelectedProductIds}
-            options={productOptions}
-            isLoading={productsLoading}
-            error={productsError ? t('errors.load.products') : null}
-            placeholder={t('purchasesPage.search.products')}
-          />
-        </div>
-        <div className="w-full sm:flex-1">
-          <MultiSelect
-            label={t('purchasesPage.filter.users')}
-            value={selectedUserIds}
-            onChange={setSelectedUserIds}
-            options={userOptions}
-            isLoading={usersLoading}
-            error={usersError ? t('errors.load.users') : null}
-            placeholder={t('purchasesPage.search.users')}
-          />
-        </div>
-      </div>
-
-      <div className="rounded border">
-        {loading && (
-          <div className="flex items-center justify-center py-8">
-            <LoadingSpinner text={t('purchasesPage.loading')} />
-          </div>
-        )}
+      <div className="rounded-lg border border-border-subtle">
         {error && (
           <div className="flex items-center justify-center py-8">
             <span className="text-sm text-red-600">
@@ -166,32 +123,38 @@ export default function PurchasesPage() {
             </span>
           </div>
         )}
-        {!loading && !error && nodes.length === 0 && (
-          <div className="p-3 text-sm text-gray-500">
+        {!error && (
+          <div className="flex flex-col">
+            <PurchaseTableHeader />
+            <PurchaseTableBody
+              nodes={nodes}
+              isInitialLoading={isInitialLoading}
+              showLoadingMorePlaceholders={showLoadingMorePlaceholders}
+              newlyAddedIds={newlyAddedIds}
+              onScrollToBottom={hasMore ? handleLoadMore : undefined}
+            />
+            {!isInitialLoading && nodes.length > 0 && (
+              <LoadMoreButton
+                hasMore={hasMore}
+                isLoading={showLoadingMorePlaceholders}
+                onClick={handleLoadMore}
+              />
+            )}
+          </div>
+        )}
+        {!error && !isInitialLoading && nodes.length === 0 && (
+          <div className="p-3 text-sm text-text-muted">
             {t('purchasesPage.empty')}
           </div>
         )}
-
-        {!loading && nodes.length > 0 && (
-          <table className="w-full" aria-label={t('purchasesPage.title')}>
-            <thead>
-              <tr className="border-b bg-gray-50">
-                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">
-                  {t('common.product', { count: 1 })}
-                </th>
-                <th className="p-2 text-left text-sm font-semibold md:p-3 md:text-base">
-                  {t('common.user', { count: 1 })}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {nodes.map((p) => (
-                <PurchaseRow key={p.id} p={p} />
-              ))}
-            </tbody>
-          </table>
-        )}
       </div>
+
+      <Toast
+        open={toastOpen}
+        onOpenChange={setToastOpen}
+        description={t('purchasesPage.itemsLoaded', { count: toastCount })}
+        duration={3000}
+      />
     </div>
   )
 }

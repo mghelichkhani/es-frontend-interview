@@ -15,6 +15,7 @@ vi.mock('next-intl', () => ({
       'common.selectAll': 'Select all',
       'common.deselectAll': 'Deselect all',
       'common.clearSearch': 'Clear search',
+      'common.clear': 'Clear',
       'common.noResults': 'No results',
       'multiSelect.selectItem': 'Select {label}',
     }
@@ -339,5 +340,65 @@ describe('MultiSelect', () => {
     await waitFor(() => {
       expect(screen.getByText('Something went wrong')).toBeInTheDocument()
     })
+  })
+
+  it('shows badge with count when items are selected', () => {
+    render(
+      <MultiSelect
+        value={['1', '2']}
+        onChange={mockOnChange}
+        options={mockOptions}
+      />,
+    )
+
+    const badge = screen.getByRole('button', { name: /clear/i })
+    expect(badge).toBeInTheDocument()
+    expect(badge).toHaveTextContent('2')
+  })
+
+  it('clears selection when badge X is clicked', async () => {
+    const user = userEvent.setup()
+    render(
+      <MultiSelect
+        value={['1', '2']}
+        onChange={mockOnChange}
+        options={mockOptions}
+      />,
+    )
+
+    const clearButton = screen.getByRole('button', { name: /clear/i })
+    await user.click(clearButton)
+
+    await waitFor(() => {
+      expect(mockOnChange).toHaveBeenCalledWith([])
+    })
+  })
+
+  it('clears selection when badge X is pressed with Enter key', async () => {
+    const user = userEvent.setup()
+    render(
+      <MultiSelect
+        value={['1', '2']}
+        onChange={mockOnChange}
+        options={mockOptions}
+      />,
+    )
+
+    const clearButton = screen.getByRole('button', { name: /clear/i })
+    clearButton.focus()
+    await user.keyboard('{Enter}')
+
+    await waitFor(() => {
+      expect(mockOnChange).toHaveBeenCalledWith([])
+    })
+  })
+
+  it('does not show badge when no items are selected', () => {
+    render(
+      <MultiSelect value={[]} onChange={mockOnChange} options={mockOptions} />,
+    )
+
+    const clearButton = screen.queryByRole('button', { name: /clear/i })
+    expect(clearButton).not.toBeInTheDocument()
   })
 })

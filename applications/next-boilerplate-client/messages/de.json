@@ -18,7 +18,8 @@
     "clearSearch": "Suche löschen",
     "reset": "Zurücksetzen",
     "menu": "Menü",
-    "resetFilters": "Filter zurücksetzen"
+    "resetFilters": "Filter zurücksetzen",
+    "close": "Schließen"
   },
   "errors": {
     "load": {
@@ -40,6 +41,8 @@
     },
     "loading": "Käufe werden geladen…",
     "empty": "Keine Käufe",
+    "loadMore": "Mehr laden",
+    "itemsLoaded": "{count, plural, one {1 neues Element geladen} other {# neue Elemente geladen}}",
     "table": {
       "product": "Produkt",
       "user": "Benutzer"
@@ -73,25 +76,41 @@
       "errorTitle": "Mit Fehlerzustand",
       "selectedTitle": "Ausgewählte Werte",
       "selectItems": "Elemente auswählen",
+      "selectFruits": "Früchte auswählen",
       "loadingItems": "Elemente werden geladen",
       "errorExample": "Fehlerbeispiel",
       "typeToSearch": "Zum Suchen tippen...",
       "selected": "Ausgewählt",
       "none": "Keine",
       "noneSelected": "Keine ausgewählt",
-      "list": "Liste {number}"
+      "list": "Liste {number}",
+      "unsortedDescription": "Diese Mehrfachauswahl zeigt Elemente in ihrer ursprünglichen Reihenfolge (unsortiert).",
+      "thresholdTitle": "Mit Schwellenwert & Priorisierung",
+      "thresholdDescription": "Diese Mehrfachauswahl hat 18 Elemente. Wenn Sie Elemente auswählen und auf Anwenden klicken, werden ausgewählte Elemente nach oben verschoben (nur wenn die Liste 10+ Elemente hat). Elemente sind auch alphabetisch sortiert."
     },
     "colorPalette": {
       "title": "Farbpalette",
       "brandColors": "Markenfarben",
       "surfaces": "Oberflächen",
       "textColors": "Textfarben",
+      "borders": "Ränder & Trennlinien",
+      "grays": "Grautöne",
       "primary": "Primär",
       "primaryDark": "Primär Dunkel",
       "surface": "Oberfläche",
       "surfaceMuted": "Oberfläche Gedämpft",
+      "surfaceMutedHover": "Oberfläche Gedämpft Hover",
+      "surfacePressed": "Oberfläche Gedrückt",
       "textStrong": "Text Stark",
-      "text": "Text"
+      "text": "Text",
+      "textMuted": "Text Gedämpft",
+      "textSubtle": "Text Subtile",
+      "borderDivider": "Rand Trennlinie",
+      "borderSubtle": "Rand Subtile",
+      "gray50": "Grau 50",
+      "gray200": "Grau 200",
+      "gray500": "Grau 500",
+      "gray600": "Grau 600"
     },
     "pluralization": {
       "title": "Pluralisierungsbeispiele",
@@ -106,6 +125,12 @@
       "german": "Deutsch",
       "ariaLabel": "Sprachauswahl",
       "switchTo": "Wechseln zu {language}"
+    },
+    "toastSection": {
+      "title": "Toast-Benachrichtigung",
+      "showToast": "Toast anzeigen",
+      "description": "Klicken Sie auf die Schaltfläche, um eine Toast-Benachrichtigung in der oberen rechten Ecke anzuzeigen.",
+      "exampleMessage": "Dies ist eine Beispiel-Toast-Benachrichtigung."
     }
   }
 }
